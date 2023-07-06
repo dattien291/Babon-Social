@@ -1,0 +1,38 @@
+.default-chat {
+  display: flex;
+  height: 100vh;
+}
+.default-chat .wrapper-sidebar-chat {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(243, 243, 243, 0.6);
+  border-right: 1px solid #dadada;
+  width: 280px;
+}
+.default-chat .wrapper-sidebar-chat span {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.default-chat .wrapper-sidebar-chat span a {
+  display: flex;
+  align-items: center;
+}
+.default-chat .wrapper-sidebar-chat span a:hover {
+  color: rgb(0, 110, 212);
+}
+.default-chat .wrapper-sidebar-chat input {
+  height: 40px;
+  font-size: 17px;
+  margin: 10px 0px 5px 0px;
+}
+
+@media (max-width: 768px) {
+  .default-chat .content-chat {
+    display: none;
+  }
+  .default-chat .wrapper-sidebar-chat {
+    width: 100%;
+  }
+}

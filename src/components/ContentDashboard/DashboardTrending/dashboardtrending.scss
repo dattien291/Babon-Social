@@ -1,0 +1,124 @@
+.trending {
+  padding: 20px 10px;
+  .trending-feeds-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .trending-image {
+      height: 300px;
+      border-radius: 10px;
+      overflow: hidden;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+    }
+    img {
+      cursor: pointer;
+    }
+  }
+  .navigation {
+    display: flex;
+    margin-right: 20px;
+    align-items: center;
+    justify-content: end;
+    gap: 20px;
+    .avatar-friend {
+      position: relative;
+      .badge {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 8px;
+        height: 8px;
+        background-color: rgb(19, 160, 19);
+        border-radius: 50%;
+      }
+    }
+    .avatar img {
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .btn-group {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-right: 2px solid grey;
+      padding-right: 20px;
+    }
+    .btn-group button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.25);
+      background-color: #fff;
+    }
+    .btn-group button svg {
+      color: rgba(0, 0, 0, 0.7);
+    }
+  }
+  .trending-feeds {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 25px 0px 15px 0px;
+  }
+}
+//=================================
+.trending-item-info {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  .name-user {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.popover-search {
+  border: none;
+  outline: none;
+  font-size: 16px;
+  width: 300px;
+}
+
+.list-friend-search {
+  position: absolute;
+  box-sizing: border-box;
+  padding: 5px 5px;
+  top: 41px;
+  left: 0px;
+  background-color: #ffffff;
+  max-height: 400px;
+  overflow: auto;
+  width: 100%;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.list-friend-search li {
+  cursor: pointer;
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 5px;
+  transition: background-color 0.1s linear;
+  border-radius: 10px;
+  &:hover {
+    background-color: rgba(219, 234, 247, 0.8);
+  }
+}
+
+@media (max-width: 1100px) {
+  .content-dashboard .trending {
+    display: none;
+  }
+}
