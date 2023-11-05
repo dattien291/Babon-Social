@@ -1,0 +1,43 @@
+.ks-dashboard {
+  display: flex;
+  gap: 20px;
+
+  @include breakpoint-down(tablet) {
+    @include flex-column;
+  }
+
+  > .sidebar {
+    width: 100px;
+
+    @include breakpoint-down(tablet) {
+      display: none;
+    }
+  }
+
+  .post {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 430px);
+
+    @include breakpoint-down(tablet) {
+      width: 100%;
+    }
+  }
+
+  .post > .header {
+    margin-top: 60px;
+    margin-bottom: 20px;
+    padding: 20px;
+    font-size: 50px;
+    color: $color-primary;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  }
+
+  .trending {
+    width: 330px;
+
+    @include breakpoint-down(tablet) {
+      display: none;
+    }
+  }
+}

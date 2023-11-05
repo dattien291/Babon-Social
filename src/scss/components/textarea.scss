@@ -1,0 +1,35 @@
+.ks-textarea {
+  position: relative;
+  width: 100%;
+
+  > .textarea {
+    @include flex-center;
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid $border-color;
+    line-height: 1.2;
+    min-height: 150px;
+    resize: vertical;
+    border-radius: 4px;
+
+    &::placeholder {
+      color: $color-gray-700;
+    }
+  }
+
+  &.-invalid > .textarea {
+    border: 1px solid red !important;
+  }
+
+  &.-invalid > .invalid {
+    @include position(absolute, 8px, 13px, null, null);
+    @include flex-center;
+    @include square(16px);
+    font-size: $fs-sm;
+    font-weight: $fw-bold;
+    border-radius: 50%;
+    cursor: default;
+    color: red;
+    border: 1px solid red;
+  }
+}

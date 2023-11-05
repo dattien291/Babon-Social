@@ -1,0 +1,23 @@
+$rating-variants: (
+  primary: $color-primary,
+  secondary: $color-secondary,
+);
+
+.ks-rating {
+  @each $color, $value in $rating-variants {
+    &.-#{$color} {
+      color: $value;
+    }
+  }
+  &.-sm {
+    font-size: 22px;
+  }
+
+  &.-md {
+    font-size: 24px;
+  }
+
+  &.-lg {
+    font-size: 26px;
+  }
+}

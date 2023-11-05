@@ -12,7 +12,7 @@ interface InfoUpdatePayload {
 }
 
 const initialState: AuthState = {
-  isAuthenticated: false,
+  isAuthenticated: true,
   dataUser: { id: "", name: "", username: "", password: "", avatar: "", bio: "" },
 };
 

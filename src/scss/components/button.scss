@@ -1,0 +1,108 @@
+$button-variants: (
+  primary: $color-primary,
+  secondary: $color-secondary,
+  dark: $black,
+  light: $white,
+);
+
+.ks-button {
+  @include flex-center;
+  font-family: $font-family-heading;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-size: $fs-normal;
+  font-weight: $fw-bold;
+  border-radius: 50px;
+  height: 42px;
+  transition: background-color 0.2s linear !important;
+
+  @each $variant, $color in $button-variants {
+    &.-contained-#{$variant} {
+      background-color: $color;
+      color: $white;
+
+      &:hover {
+        background-color: $color-primary;
+      }
+    }
+
+    &.-bg-hover-#{$variant}:hover {
+      background-color: $color !important;
+    }
+
+    &.-outlined-#{$variant} {
+      background-color: transparent;
+      color: $white;
+      border: 2px solid $color;
+
+      &:hover {
+        background-color: $color;
+        color: $white;
+      }
+    }
+  }
+
+  &.-contained-light {
+    color: $black;
+
+    &:hover {
+      color: $white;
+    }
+  }
+
+  &:hover {
+    background: $color-primary;
+    color: $white;
+  }
+
+  &.-full-width {
+    @include flex-center;
+    width: 100%;
+  }
+
+  &.-adornment {
+    @include flex-center-ver;
+    gap: 8px;
+  }
+
+  &.-md {
+    @include size(163px, 56px);
+  }
+
+  &.-lg {
+    @include size(195px, 56px);
+  }
+
+  &.-circle {
+    padding: 0px;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+  }
+
+  &.-square {
+    padding: 0;
+    aspect-ratio: 1/1;
+  }
+
+  &.-icon-only {
+    padding: 0;
+    @include circle(75px);
+    color: $black;
+  }
+
+  &.-no-border {
+    border: transparent;
+  }
+
+  &.-disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    &:hover {
+      background-color: $color-primary;
+    }
+  }
+}
+
+.ks-loading-root {
+  @include square(20px !important);
+}

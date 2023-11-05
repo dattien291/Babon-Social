@@ -33,7 +33,6 @@ const ChatDefault: React.FC = () => {
           </span>
 
           <Input placeholder="Search..." onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchFriend(e.target.value)} />
-          {/* <input type="text" placeholder="Tìm kiếm"/> */}
 
           <ul className="list-friend">
             {dataListFriend.map((item) => (

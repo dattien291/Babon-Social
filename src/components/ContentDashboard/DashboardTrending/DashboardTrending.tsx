@@ -32,7 +32,7 @@ const DashboardTrending: React.FC = () => {
   const { theme, setTheme } = useContext(ThemeContext); // them context
   const dataUser = useSelector((state: RootState) => state.auth); //redux
   const navigate = useNavigateLocal();
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
   const [inputSearch, setInputSearch] = useState<string>("");
   const [dataListFriend, setDataListFriend] = useState<User[]>([]);
   const [listFriend, setListFriend] = useState<User[]>([]);
@@ -51,7 +51,7 @@ const DashboardTrending: React.FC = () => {
   }, []);
 
   const handleOnClickMyProfile = () => {
-    dispath(
+    dispatch(
       updateProfile({
         isMyProfile: true,
         dataProfile: dataUser.dataUser.username,
@@ -95,7 +95,7 @@ const DashboardTrending: React.FC = () => {
           Profile
         </Link>
       </button>
-      <button style={{ fontSize: "15px" }} onClick={() => dispath(logout())}>
+      <button style={{ fontSize: "15px" }} onClick={() => dispatch(logout())}>
         Log out
       </button>
     </div>

@@ -4,32 +4,29 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../store/authSlice";
 import { message } from "antd";
-// import ImageBlur from "../components/ImageBlur/ImageBlur";
 import useAuthenticator from "../hooks/useAuthenticator";
 import useNavigateLocal from "../hooks/useNavigateLocal";
 
-// import axios from "axios";
-
 const Login = () => {
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigateLocal();
-  const authen = useAuthenticator();
+  const authenticate = useAuthenticator();
 
   const [userInfo, setUserInfo] = useState({
     username: "",
     password: "",
   });
   const [messageApi, contextHolder] = message.useMessage();
-  //=======================Library passport.js=================================================
+
   const handleOnChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setUserInfo({ ...userInfo, [event.target.name]: event.target.value });
   };
 
   const handleSignIn = async (mode: string, event: MouseEvent<HTMLButtonElement>, ...args: any) => {
     event.preventDefault();
-    const res = await authen.authenticate(mode, args);
+    const res = await authenticate.authenticate(mode, args);
     if (res.message === "success") {
-      dispath(login(res.data));
+      dispatch(login(res.data));
     } else {
       messageApi.open({
         type: "error",
@@ -47,7 +44,7 @@ const Login = () => {
         <div className="logo">
           <img src="/logo-gradient.svg" alt="logo" />
         </div>
-        <form action="">
+        <form>
           <div className="form-group">
             <input
               type="text"
