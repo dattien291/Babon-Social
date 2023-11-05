@@ -6,7 +6,7 @@ export type GlobalContent = {
 };
 
 export const ThemeContext = createContext<GlobalContent>({
-  theme: false, // set a default value
+  theme: false,
   setTheme: () => {},
 });
 

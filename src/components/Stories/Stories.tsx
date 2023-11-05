@@ -1,105 +1,82 @@
-import React, { useEffect, useRef, useState } from "react";
+import { map, times } from "lodash";
+import React, { useEffect, useState } from "react";
+import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
+import { Navigation } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { getStories } from "../../assets/fake-data/ListStories";
+import { KaImage } from "../primitive/KaImage";
+import StoriesModal from "./ModalStories/StoriesModal";
 import "./stories.scss";
-import { Story, getStories } from "../../assets/fake-data/ListStories";
-import { RiArrowRightSLine, RiArrowLeftSLine } from "react-icons/ri";
-import { StoriesSkeleton } from "./StoriesSkeleton";
-import ModalStories from "./ModalStories/ModalStories";
-import ImageBlur from "../ImageBlur/ImageBlur";
+import { Skeleton } from "@mui/material";
 
 const Stories: React.FC = () => {
-  const [stories, setStories] = useState<Story[]>([]);
-  const refStories = useRef<HTMLUListElement>(null);
-  const [storiesLoading, setStoriesLoading] = useState<boolean>(false);
+  const [stories, setStories] = useState<any>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [indexStorySelected, setIndexStorySelected] = useState<number>(0);
-  //   const [btnShow, setBtnShow] = useState<boolean>(false);
+  const [storySelected, setStorySelected] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    openModal ? (document.body.style.overflow = "hidden") : (document.body.style.overflow = "auto");
-  }, [openModal]);
-
-  useEffect(() => {
-    const fetchApiStories = async () => {
-      setStoriesLoading(true);
+    const fetchStories = async () => {
+      setIsLoading(true);
       const res = await getStories();
-      setStoriesLoading(false);
       setStories(res);
+      setIsLoading(false);
     };
-    fetchApiStories();
+
+    fetchStories();
   }, []);
 
-  const confirmIndexSeen = (index: number) => {
-    setStories((prev) => prev.map((item, index1) => (index === index1 ? { ...item, confirmSeen: true } : item)));
-  };
-
-  const handleScrollStoriesNext = () => {
-    if (refStories.current) {
-      if (refStories.current.scrollLeft < refStories.current.scrollWidth - refStories.current.clientWidth) {
-        refStories.current.scrollLeft = refStories.current.scrollLeft + 200;
-      } else {
-        return;
-      }
-    }
-  };
-
-  const handleScrollStoriesPrev = () => {
-    if (refStories.current) {
-      if (refStories.current.scrollLeft > 0) {
-        refStories.current.scrollLeft = refStories.current.scrollLeft - 200;
-      } else {
-        return;
-      }
-    }
-  };
+  const handleCloseModal = () => setOpenModal(false);
 
   return (
-    <div className="wrapper-stories">
-      {openModal && (
-        <ModalStories
-          open={openModal}
-          onClose={() => setOpenModal(false)}
-          indexStorySelected={indexStorySelected}
-          dataStories={stories}
-          confirmIndexSeen={confirmIndexSeen}
-        />
-      )}
+    <div className="ks-story-list">
+      <StoriesModal open={openModal} onClose={handleCloseModal} active={storySelected} dataStories={stories} />
 
-      <ul ref={refStories} className="list-stories">
-        {storiesLoading ? (
-          <StoriesSkeleton />
-        ) : (
-          stories.map((item, index) => (
-            <li
-              style={{ borderColor: `${item.confirmSeen ? "rgb(187, 187, 187)" : "rgb(0, 144, 227)"}` }}
-              key={item.id}
-              onClick={() => {
-                setOpenModal(true);
-                setIndexStorySelected(index);
-              }}
-            >
-              <div className="information">
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                  <div
-                    className="avatar-friend"
-                    style={{ borderColor: `${item.confirmSeen ? "rgb(187, 187, 187)" : "rgb(0, 144, 227)"}` }}
-                  >
-                    {item.avatar ? <img src={item.avatar} /> : item.name.slice(0, 2).toLocaleUpperCase()}
+      <Swiper
+        slidesPerView={"auto"}
+        navigation={{
+          nextEl: ".ks-story-list > .action.-right",
+          prevEl: ".ks-story-list > .action.-left",
+        }}
+        spaceBetween={20}
+        modules={[Navigation]}
+        className="swiper"
+      >
+        {!isLoading
+          ? map(stories, (item, index) => (
+              <SwiperSlide key={index} className="slide" style={{ width: "130px" }}>
+                <div
+                  className="ks-story-item"
+                  onClick={() => {
+                    setOpenModal(true);
+                    setStorySelected(Number(index));
+                  }}
+                >
+                  <div className="information">
+                    <KaImage src={item?.avatar || ""} alt={item?.avatar} objectFit="cover" className="avatar" />
+                    {item.name}
                   </div>
-                  {item.name}
-                </div>
-              </div>
-              <ImageBlur picture={item.image[0]} />
-            </li>
-          ))
-        )}
 
-        <button className="btn-next" onClick={handleScrollStoriesNext}>
-          <RiArrowRightSLine></RiArrowRightSLine>
-        </button>
-        <button className="btn-prev" onClick={handleScrollStoriesPrev}>
-          <RiArrowLeftSLine></RiArrowLeftSLine>
-        </button>
-      </ul>
+                  <KaImage src={item?.image[0]?.url || ""} objectFit="cover" />
+                </div>
+              </SwiperSlide>
+            ))
+          : times(10, (index) => (
+              <SwiperSlide key={index} className="slide" style={{ width: "130px" }}>
+                <div className="ks-story-item">
+                  <Skeleton variant="rectangular" width="100%" height="100%" animation="wave" />
+                </div>
+              </SwiperSlide>
+            ))}
+      </Swiper>
+
+      <button className="action -right">
+        <RiArrowRightSLine></RiArrowRightSLine>
+      </button>
+
+      <button className="action -left">
+        <RiArrowLeftSLine></RiArrowLeftSLine>
+      </button>
     </div>
   );
 };

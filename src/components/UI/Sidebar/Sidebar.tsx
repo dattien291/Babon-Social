@@ -1,40 +1,18 @@
-import { NavLink } from "react-router-dom";
+import { useContext, useState } from "react";
+import { RiLogoutBoxRLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { ThemeContext } from "../../../contexts/Theme";
+import useNavigateLocal from "../../../hooks/useNavigateLocal";
+import { logout } from "../../../store/authSlice";
 import { RootState } from "../../../store/store";
 import "./sidebar.scss";
-import { RiBarChartHorizontalLine, RiLogoutBoxRLine } from "react-icons/ri";
-import { Tooltip } from "antd";
-import { MenuUnfoldOutlined, CloseOutlined } from "@ant-design/icons";
-import { useContext, useEffect, useState } from "react";
-import { logout } from "../../../store/authSlice";
-import useNavigateLocal from "../../../hooks/useNavigateLocal";
-import { ThemeContext } from "../../../contexts/Theme";
 
-interface SidebarProp {
-  toggleSidebar: boolean;
-  onModeCollapse: boolean;
-  setOnModeCollapse: React.Dispatch<React.SetStateAction<boolean>>;
-  handleMouseOver: () => void;
-  handleMouseOut: () => void;
-}
-
-const Sidebar = ({ toggleSidebar, handleMouseOver, handleMouseOut, onModeCollapse, setOnModeCollapse }: SidebarProp) => {
+const Sidebar = () => {
   const { theme } = useContext(ThemeContext);
   const dataUser = useSelector((state: RootState) => state.auth);
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigateLocal();
-  const [toggleMenu, setToggleMenu] = useState<boolean>(false);
-  const [delayShowMenu, setDelayShowMenu] = useState<boolean>(false);
-  //Show list icon in 1 time
-  useEffect(() => {
-    let timer = setTimeout(() => {
-      setDelayShowMenu(true);
-    }, 1000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
 
   const handleNavigateProfile = () => {
     navigate.directional("/profile", {
@@ -44,52 +22,35 @@ const Sidebar = ({ toggleSidebar, handleMouseOver, handleMouseOut, onModeCollaps
   };
 
   return (
-    <aside
-      className={`${onModeCollapse ? "sidebar-collapse sidebar" : "sidebar"} ${
-        toggleSidebar ? "large-sidebar" : "small-sidebar"
-      } ${theme ? "dark" : ""}`}
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}
-    >
+    <aside className={`sidebar-collapse sidebar large-sidebar ${theme ? "dark" : ""}`}>
       <div className="logo-sidebar">
         <img src="/logo-gradient.svg" alt="logo" width={"150px"} />
-        <Tooltip title={`Collapse: ${onModeCollapse ? "On" : "Off"}`} color={"rgb(7, 142, 200)"}>
-          <button onClick={() => setOnModeCollapse((prev) => !prev)}>
-            <RiBarChartHorizontalLine></RiBarChartHorizontalLine>
-          </button>
-        </Tooltip>
       </div>
-      <div className="toggle-menu" onClick={() => setToggleMenu(!toggleMenu)}>
-        {toggleMenu ? <CloseOutlined /> : <MenuUnfoldOutlined />}
-      </div>
-      <div className={`user-nav-group ${toggleMenu ? "menu-show" : ""}`}>
-        <div className="user-infomation">
+
+      <div className="user-nav-group">
+        <div className="user-information">
           <div className="avatar-friend" onClick={handleNavigateProfile}>
-            {dataUser.dataUser.avatar ? (
-              <img src={dataUser.dataUser.avatar} />
-            ) : (
-              dataUser.dataUser.name.slice(0, 2).toLocaleUpperCase()
-            )}
+            <img src={dataUser?.dataUser?.avatar} />
           </div>
-          <div className="user-name">{dataUser.dataUser.name}</div>
         </div>
-        <div className={`menu ${delayShowMenu ? "" : "hide-menu"}`}>
+
+        <div className="menu">
           <NavLink to="/dashboard" className="nav-link">
-            <img src="/dashboard-gray.svg" alt="" /> <span>Dashboard</span>
+            <img src="/dashboard-gray.svg" alt="" />
           </NavLink>
           <NavLink to="/community" className="nav-link">
-            <img src="communication-gray.svg" alt="" /> <span>Community</span>
+            <img src="communication-gray.svg" alt="" />
           </NavLink>
           <NavLink to="/chat" className="nav-link">
-            <img src="icon-gray.svg" alt="" /> <span>Chat</span>
+            <img src="icon-gray.svg" alt="" />
           </NavLink>
           <NavLink to={`/profile/${dataUser.dataUser.username}`} className="nav-link">
-            <img src="/setting-gray.svg" alt="" /> <span>Settings</span>
+            <img src="/setting-gray.svg" alt="" />
           </NavLink>
           <div className="nav-link nav-notification">
             <img src="/noti-gray.svg" alt="" />
           </div>
-          <div className="nav-link nav-notification" onClick={() => dispath(logout())}>
+          <div className="nav-link nav-notification" onClick={() => dispatch(logout())}>
             <RiLogoutBoxRLine></RiLogoutBoxRLine>
           </div>
         </div>

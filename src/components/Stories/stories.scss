@@ -1,75 +1,45 @@
-.wrapper-stories {
-  position: relative;
-  width: 100%;
-  margin-bottom: 20px;
+@import "swiper/css/bundle";
+@import "../../scss/main.scss";
+
+.ks-story-list {
   user-select: none;
-}
-.list-stories {
-  display: flex;
-  overflow: hidden;
-  list-style: none;
-  gap: 20px;
-  scroll-behavior: smooth;
-}
-.list-stories .stories-skeleton {
-  border-color: rgb(165, 163, 163);
-  background-color: rgb(195, 194, 194);
-  animation: skeletonAnimation 0.5s alternate infinite;
-}
-.list-stories .btn-next,
-.list-stories .btn-prev {
-  position: absolute;
-  display: flex;
-  background-color: rgba(0, 0, 0, 0.5);
-  border: none;
-  outline: none;
-  border-radius: 50%;
-  color: #fff;
-  font-size: 35px;
-  top: 40%;
-  cursor: pointer;
-}
-.list-stories .btn-next {
-  right: 0px;
-}
-.list-stories li {
   position: relative;
-  border: 4px solid;
-  min-width: 112px;
-  max-width: 112px;
-  height: 180px;
-  border-radius: 20px;
-  overflow: hidden;
-  cursor: pointer;
+
+  > .action {
+    @include abs-center-ver;
+    @include circle(50px);
+    @include flex-center;
+    font-size: 30px;
+    color: $white;
+    background-color: rgba($black, 0.5);
+    z-index: 2;
+
+    &.-right {
+      right: 0;
+    }
+  }
 }
-.list-stories li .information {
-  position: absolute;
-  bottom: 0px;
-  display: flex;
-  justify-content: center;
-  color: #fff;
+
+.ks-story-item {
+  @include size(100%, 200px);
+  position: relative;
+  border: 4px solid rgb(0, 144, 227);
+  border-radius: 20px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.ks-story-item > .information {
+  @include flex-inline-center-column;
+  @include position(absolute, null, 0, 0, 0);
+  @include size(100%, 40%);
+  color: $white;
   padding-bottom: 5px;
-  width: 100%;
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
   z-index: 2;
 }
-.list-stories li .information .avatar-friend {
-  width: 40px;
-  height: 40px;
-  color: black;
-  border: 3px solid;
-}
-.list-stories li img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-@keyframes skeletonAnimation {
-  from {
-    opacity: 0.4;
-  }
-  to {
-    opacity: 0.7;
-  }
+
+.ks-story-item > .information > .avatar {
+  @include circle(40px);
+  border: 3px solid rgb(0, 144, 227);
 }

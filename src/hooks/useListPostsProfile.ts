@@ -6,16 +6,16 @@ import { RootState } from "../store/store";
 import { postsRequest, postsSucess, refreshPosts } from "../store/listPostsSlice";
 
 function useListPostProfile(username: string = "") {
-  const distpath = useDispatch();
+  const dispatch = useDispatch();
   const listPosts = useSelector((state: RootState) => state.posts);
 
   useEffect(() => {
-    distpath(refreshPosts());
+    dispatch(refreshPosts());
     const fetchApi = async () => {
-      distpath(postsRequest());
+      dispatch(postsRequest());
       const res: Post[] = await getPostsWithName(username);
 
-      distpath(postsSucess(res));
+      dispatch(postsSucess(res));
     };
     fetchApi();
   }, [username]);

@@ -1,12 +1,3 @@
-.content-dashboard .post .header {
-  margin-top: 60px;
-  margin-bottom: 20px;
-  padding: 20px;
-  font-size: 50px;
-  color: rgb(7, 142, 200);
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-}
-
 .post-skeleton {
   display: flex;
   flex-direction: column;
@@ -42,11 +33,6 @@
 .post-skeleton .avatar-friend,
 .post-skeleton .post-body-skeleton {
   animation: skeletonAnimation 0.5s alternate infinite;
-}
-@media (max-width: 992px) {
-  .content-dashboard .post .header {
-    margin-top: 0px;
-  }
 }
 
 @keyframes skeletonAnimation {

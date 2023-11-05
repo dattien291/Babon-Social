@@ -1,0 +1,27 @@
+.ks-story-card {
+  position: relative;
+  height: 100%;
+  transform: scale(0.7);
+  border-radius: 15px;
+  transition: transform 0.1s linear;
+  cursor: pointer;
+
+  &.-active {
+    transform: scale(1);
+  }
+
+  > .blur {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+
+  > .blur > .image {
+    filter: blur(30px);
+    border-radius: 15px;
+    opacity: 0.8;
+  }
+}

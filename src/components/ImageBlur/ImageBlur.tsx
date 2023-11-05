@@ -10,6 +10,7 @@ interface ImageBlurProps {
 const ImageBlur: React.FC<ImageBlurProps> = (props: ImageBlurProps) => {
   const { picture = { url: "", blurHash: "" } } = props;
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
+
   useEffect(() => {
     const img = new Image();
     img.onload = () => {

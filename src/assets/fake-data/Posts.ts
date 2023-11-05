@@ -278,7 +278,7 @@ const postDefault: Post[] = [
   },
 ];
 
-let posts: Post[] = joinAvatar(postDefault, listUser);
+const posts: any = joinAvatar(postDefault, listUser);
 
 export const filterPosts = (limit: number) => {
   return new Promise<Post[]>((resolve) => {
@@ -291,7 +291,7 @@ export const filterPosts = (limit: number) => {
 export const getPostsWithName = (name: string) => {
   return new Promise<Post[]>((resolve) => {
     setTimeout(() => {
-      resolve(posts.filter((item) => item.username === name));
+      resolve(posts.filter((item: any) => item.username === name));
     }, 1000);
   });
 };

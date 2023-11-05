@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
-import DashBoard from "../pages/DashBoard";
+import DashBoard from "../pages/dashboard/index";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthState, login } from "../store/authSlice";
 import { RootState } from "../store/store";
@@ -11,14 +11,14 @@ import Profile from "../pages/Profile";
 import SignUp from "../pages/SignUp";
 
 const Routers = () => {
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
   const dataUser = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     const dataUserLocalStorage = localStorage.getItem("User");
     if (dataUserLocalStorage) {
       const userLocalStorage: AuthState = JSON.parse(dataUserLocalStorage);
-      dispath(login(userLocalStorage.dataUser));
+      dispatch(login(userLocalStorage.dataUser));
     }
   }, []);
 

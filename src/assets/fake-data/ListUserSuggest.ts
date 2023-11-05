@@ -18,7 +18,7 @@ const listUserSuggestDefault: PostTrending[] = [
   { id: "5", name: "Marabel", username: "marabel", avatar: "", bio: "Hi, I'm Marabel" },
 ];
 
-let listUserSuggest: PostTrending[] = joinAvatar(listUserSuggestDefault, listUser);
+const listUserSuggest: any = joinAvatar(listUserSuggestDefault, listUser);
 
 export const getListUserSuggest = () => {
   return new Promise<PostTrending[]>((resolve) => {

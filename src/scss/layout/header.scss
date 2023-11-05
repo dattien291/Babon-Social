@@ -1,0 +1,21 @@
+.ks-header-layout {
+  background-image: linear-gradient(135deg, $color-primary 0%, rgb(40, 116, 252) 100%);
+  width: 100%;
+  padding: 10px 0;
+  z-index: 10;
+
+  &.-sticky {
+    background-image: none;
+    background-color: $white;
+    @include position(sticky, 0, null, null, 0);
+  }
+
+  > .wrapper {
+    max-width: 1298.4px;
+  }
+
+  @include breakpoint-down(tablet) {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
