@@ -1,43 +1,321 @@
+@import "swiper/css/bundle";
+
 .ks-dashboard {
   display: flex;
   gap: 20px;
+  background-color: transparent;
+
+  &.-dark {
+    > .sidebar {
+      background-color: $bg-dark-700;
+      color: $color-light-gray;
+    }
+
+    > .post > .header > .text {
+      color: $color-light-gray;
+    }
+
+    > .trending > .sticky > .feeds {
+      background-color: $bg-dark-700;
+      color: $color-light-gray;
+    }
+
+    > .trending > .sticky > .feeds > .heading {
+      color: $color-pink;
+    }
+
+    > .trending > .sticky > .suggestion {
+      background-color: $bg-dark-700;
+      color: $color-light-gray;
+    }
+
+    > .trending > .sticky > .suggestion > .heading {
+      color: $color-pink;
+    }
+  }
 
   @include breakpoint-down(tablet) {
     @include flex-column;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   > .sidebar {
     width: 100px;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    color: $color-gray-600;
+    background-color: $white;
+    z-index: 1;
 
     @include breakpoint-down(tablet) {
       display: none;
     }
   }
 
-  .post {
+  > .sidebar > .sticky {
+    @include position(sticky, 20px, null, null, 0px);
+  }
+
+  > .sidebar > .sticky > .logo {
+    @include size(100%, auto);
+    aspect-ratio: 16/9;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+
+  > .sidebar > .sticky > .navigation {
+    @include flex-column;
+    @include flex-center;
+    margin-top: 30px;
+  }
+
+  > .sidebar > .sticky > .navigation > .avatar {
+    @include square(50px);
+    aspect-ratio: 1/1;
+  }
+
+  > .sidebar > .sticky > .navigation > .menu {
+    @include flex-column;
+    gap: 8px;
+    margin-top: 30px;
+  }
+
+  > .sidebar > .sticky > .navigation > .menu > .action {
+    font-size: 26px;
+    color: inherit;
+    cursor: pointer;
+    transition: color 0.2s linear;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+
+  > .post {
     display: flex;
     flex-direction: column;
     width: calc(100% - 430px);
+    z-index: 1;
+    position: relative;
 
     @include breakpoint-down(tablet) {
       width: 100%;
     }
   }
 
-  .post > .header {
+  > .post > .header {
     margin-top: 60px;
     margin-bottom: 20px;
     padding: 20px;
     font-size: 50px;
     color: $color-primary;
-    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+    font-weight: $fw-bold;
   }
 
-  .trending {
+  > .post > .header > .text {
+    color: $color-gray-600;
+    font-size: 23px;
+    font-weight: $fw-semibold;
+  }
+
+  > .trending {
     width: 330px;
+    @include flex-column;
 
     @include breakpoint-down(tablet) {
       display: none;
     }
+  }
+
+  > .trending > .sticky {
+    @include position(sticky, 0px, 0px, null, null);
+  }
+
+  > .trending > .sticky > .navigation {
+    @include flex-center-ver;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    height: 60px;
+  }
+
+  > .trending > .sticky > .navigation > .group {
+    @include flex-center-ver;
+    padding-right: 20px;
+    border-right: 2px solid $color-gray-600;
+    gap: 10px;
+  }
+
+  > .trending > .sticky > .navigation > .group > .switch {
+    margin-right: 0;
+  }
+
+  > .trending > .sticky > .navigation > .group > .button {
+    font-size: 16px;
+    box-shadow: 5px 5px 5px rgba($black, 0.2);
+  }
+
+  > .trending > .sticky > .navigation > a > .avatar {
+    padding: 0 20px;
+  }
+
+  > .trending > .sticky > .feeds {
+    background-color: $white;
+    color: $black;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: $shadow-primary;
+    border-radius: $border-radius;
+    border-bottom: 1px solid $color-gray;
+  }
+
+  > .trending > .sticky > .feeds > .heading {
+    color: $color-gray-600;
+    margin-bottom: 10px;
+    font-size: $fs-x-large;
+  }
+
+  > .trending > .sticky > .feeds > .thumbnail {
+    @include size(100%, auto);
+    cursor: pointer;
+    aspect-ratio: 1/1;
+
+    &.-skeleton {
+      border-radius: $border-radius;
+      background-color: rgba($color-gray, 0.6);
+    }
+  }
+
+  > .trending > .sticky > .feeds > .thumbnail > .image {
+    border-radius: 13px;
+  }
+
+  > .trending > .sticky > .feeds > .information {
+    @include flex-center-ver;
+    font-weight: $fw-semibold;
+    color: $color-primary;
+    gap: 6px;
+    margin: 12px 0;
+    height: 50px;
+  }
+
+  > .trending > .sticky > .feeds > .information > a > .link > .text {
+    @include flex-center-ver;
+    gap: 6px;
+  }
+
+  > .trending > .sticky > .feeds > .information > a > .link > .text > .avatar {
+    @include square(50px);
+    aspect-ratio: 1/1;
+
+    &.-skeleton {
+      border-radius: 50%;
+      background-color: rgba($color-gray, 0.6);
+    }
+  }
+
+  > .trending > .sticky > .feeds > .text {
+    @include truncate-multiline-new(2);
+    font-size: $fs-normal;
+    color: inherit;
+    height: 42px;
+
+    &.-skeleton {
+      border-radius: $border-radius;
+      background-color: rgba($color-gray, 0.6);
+    }
+  }
+
+  > .trending > .sticky > .suggestion {
+    background-color: $white;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: $shadow-primary;
+    border-radius: $border-radius;
+    border-bottom: 1px solid $color-gray;
+  }
+
+  > .trending > .sticky > .suggestion > .heading {
+    color: $color-gray-600;
+    margin-bottom: 10px;
+    font-size: $fs-x-large;
+  }
+}
+
+.ks-dashboard-story-list {
+  user-select: none;
+  position: relative;
+  height: 200px;
+  margin-bottom: 20px;
+
+  > .action {
+    @include abs-center-ver;
+    @include circle(40px);
+    @include flex-center;
+    font-size: 16px;
+    color: $white;
+    background-color: rgba($black, 0.5);
+    z-index: 2;
+
+    &.-hidden {
+      @include hidden;
+    }
+
+    &.-right {
+      right: 0;
+    }
+  }
+}
+
+.ks-dashboard-story-item {
+  @include size(100%, 200px);
+  position: relative;
+  border: 4px solid rgb(0, 144, 227);
+  border-radius: 20px;
+  cursor: pointer;
+  overflow: hidden;
+
+  > .skeleton {
+    @include square(100%);
+    background-color: rgba($color-gray, 0.6);
+  }
+}
+
+.ks-dashboard-story-item > .information {
+  @include flex-inline-center-column;
+  @include position(absolute, null, 0, 0, 0);
+  @include size(100%, 40%);
+  color: $white;
+  padding-bottom: 5px;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+  z-index: 2;
+}
+
+.ks-dashboard-story-item > .information > .avatar {
+  @include circle(40px);
+  border: 3px solid rgb(0, 144, 227);
+}
+
+.ks-stories-modal {
+  @include square(100%);
+  padding: 20px 0;
+
+  > .box {
+    @include square(100%);
+  }
+}
+
+.ks-stories-modal-backdrop {
+  background-color: $bg-gray !important;
+}
+
+.ks-story-slides {
+  @include square(100%);
+  user-select: none;
+}
+
+.ks-story-slide {
+  @include breakpoint-down(smallphone) {
+    max-width: 100%;
   }
 }

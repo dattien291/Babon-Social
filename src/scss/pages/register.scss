@@ -1,0 +1,43 @@
+.ks-register {
+  @include flex-center;
+  @include size(100vw, 100vh);
+
+  > .background {
+    @include full-viewport;
+    background-image: url("/BGSocial.jpg");
+    background-position: center;
+    background-size: cover;
+    z-index: -1;
+  }
+
+  .register-form {
+    flex-direction: column;
+    padding: 40px 30px;
+    background-color: $white;
+    border-radius: 30px;
+    gap: 20px;
+    width: 410px;
+
+    @include flex-center;
+
+    > .logo {
+      @include size(100%, 80px);
+      cursor: pointer;
+    }
+
+    > .input > .field {
+      @include flex-center-ver;
+      height: 45px;
+      background-image: linear-gradient(to right, rgba(9, 192, 208, 0.8), rgba(33, 55, 222, 0.8));
+      border-radius: $border-radius;
+      padding: 2px;
+    }
+
+    > .input > .field > .input {
+      height: 99%;
+      font-size: $fs-large;
+      padding: 0px 15px;
+      border-radius: 8px;
+    }
+  }
+}

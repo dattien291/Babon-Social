@@ -1,4 +1,4 @@
-import DashBoard from "../../containers/Dashboard";
+import DashBoard from "@/containers/Dashboard";
 
 const index = () => {
   return <DashBoard />;

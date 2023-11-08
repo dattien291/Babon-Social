@@ -1,0 +1,232 @@
+.ks-post {
+  &-modal {
+    @include flex-center;
+    position: relative;
+
+    > .box {
+      @include size(80%, 92%);
+      overflow: hidden;
+      background: $white;
+      border-radius: 5px;
+    }
+
+    > .box > .close {
+      @include position(absolute, 10px, 20px, null, null);
+      font-size: 27px;
+      color: $white;
+      z-index: 3;
+
+      @include breakpoint-down(smallphone) {
+        @include position(absolute, 0px, 10px, null, null);
+        font-size: 24px;
+      }
+    }
+
+    > .box > .content {
+      display: flex;
+      height: 100%;
+
+      @include breakpoint-down(tablet) {
+        flex-direction: column;
+      }
+    }
+
+    > .box > .content > .left {
+      @include size(50%, 100%);
+      position: relative;
+
+      @include breakpoint-down(tablet) {
+        @include size(100%, 350px);
+      }
+
+      @include breakpoint-down(smallphone) {
+        @include size(100%, 300px);
+      }
+    }
+
+    > .box > .content > .left > .action {
+      @include abs-center-ver;
+      @include flex-center;
+      @include circle(35px);
+      background-color: rgba($black, 0.5);
+      color: $white;
+      cursor: pointer;
+      z-index: 2;
+
+      &.-hidden {
+        @include hidden;
+      }
+
+      &.-left {
+        left: 10px;
+      }
+
+      &.-right {
+        right: 10px;
+      }
+    }
+
+    > .box > .content > .left > .action > .icon {
+      line-height: 1;
+    }
+
+    > .box > .content > .right {
+      @include size(50%, 100%);
+      padding: 10px 10px 0 10px;
+
+      @include breakpoint-down(tablet) {
+        width: 100%;
+      }
+    }
+
+    > .box > .content > .right > .content {
+      height: calc(100% - 60px);
+      overflow: auto;
+    }
+
+    > .box > .content > .right > .comment {
+      @include flex-center-ver;
+      height: 60px;
+      box-sizing: border-box;
+      padding: 5px 0;
+      gap: 10px;
+    }
+
+    > .box > .content > .right > .comment > .avatar {
+      @include square(50px);
+      aspect-ratio: 1/1;
+    }
+
+    > .box > .content > .right > .comment > .form {
+      flex: 1;
+    }
+
+    > .box > .content > .right > .content > .header {
+      @include flex-center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    > .box > .content > .right > .content > .header > .information {
+      @include flex-center-ver;
+      gap: 10px;
+    }
+
+    > .box > .content > .right > .content > .header > .information > .avatar {
+      @include circle(50px);
+      cursor: pointer;
+
+      &.-skeleton {
+        @include circle(50px);
+        background-color: rgba($color-gray, 0.6);
+      }
+    }
+
+    > .box > .content > .right > .content > .header > .information > .avatar > .image {
+      @include circle(50px);
+    }
+
+    > .box > .content > .right > .content > .header > .information > .group {
+      @include flex-column;
+      font-weight: $fw-semibold;
+    }
+
+    > .box > .content > .right > .content > .header > .information > .group > .name {
+      cursor: pointer;
+
+      &:hover {
+        color: $color-primary;
+        text-decoration: underline;
+      }
+    }
+
+    > .box > .content > .right > .content > .header > .information > .group > .date {
+      @include flex-center-ver;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: $fw-semibold;
+      color: $color-gray-600;
+    }
+
+    > .box > .content > .right > .content > .header > .information > .group > .date > .icon {
+      font-size: 11px;
+    }
+
+    > .box > .content > .right > .content > .body > .text {
+      font-size: 14px;
+      @include truncate-multiline-new(2);
+      margin-bottom: 20px;
+    }
+  }
+
+  &-modal-slides {
+    height: 100%;
+    user-select: none;
+  }
+
+  &-modal-slide {
+    > .thumbnail {
+      position: relative;
+      @include square(100%);
+      @include flex-center;
+
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-color: rgba($black, 0.5);
+        z-index: 0;
+        pointer-events: none;
+        box-shadow: inset 0 0 60px $black;
+      }
+    }
+
+    > .thumbnail > .overlay {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      filter: blur(13px);
+    }
+
+    > .thumbnail > .image {
+      @include square(unset);
+      max-width: 100%;
+      max-height: 100%;
+      z-index: 2;
+    }
+  }
+
+  &-modal-comments {
+    @include flex-column;
+    gap: 10px;
+    padding-top: 15px;
+    border-top: 1px solid rgba($color-gray-600, 0.2);
+  }
+
+  &-modal-comment-card {
+    display: flex;
+    gap: 10px;
+
+    > .avatar {
+      @include square(40px);
+      aspect-ratio: 1/1;
+    }
+
+    > .information {
+      padding: 5px 10px 10px 10px;
+      background-color: #eaefef;
+      border-radius: 5px;
+    }
+
+    > .information > .name {
+      display: block;
+      font-weight: $fw-semibold;
+      margin-bottom: 4px;
+    }
+
+    > .information > .text {
+      font-size: 14px;
+    }
+  }
+}

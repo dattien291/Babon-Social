@@ -1,17 +1,20 @@
-import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
-
+import { FC, useEffect, useRef, useState } from "react";
 import { useSwiperSlide } from "swiper/react";
-import { FC } from "react";
-import { KaImage } from "../../primitive/KaImage";
+
 import classNames from "classnames";
+import { KaImage, KaVideo } from "@/components/primitive";
+import { isEmpty } from "lodash";
+import Progress from "./Progess";
 
 interface IStoryCardProps {
   story: any;
   onClick: () => void;
+  onNext: () => void;
 }
 
-export const StoryCard: FC<IStoryCardProps> = ({ story, onClick }) => {
+export const StoryCard: FC<IStoryCardProps> = ({ story, onClick, onNext }) => {
   const swiperSlide = useSwiperSlide();
+  const videoRef: any = useRef();
 
   return (
     <div
@@ -24,8 +27,10 @@ export const StoryCard: FC<IStoryCardProps> = ({ story, onClick }) => {
       onClick={onClick}
     >
       <div className="blur">
-        <KaImage src={story?.image[0]?.url} objectFit="cover" className="image" />
+        <KaImage src={story?.image || ""} objectFit="cover" className="image" />
       </div>
+
+      {swiperSlide?.isActive && <Progress onNext={() => {}} />}
 
       {/* {index === parseInt(story.id) - 1 && open ? (
           <TimeNext
@@ -58,7 +63,7 @@ export const StoryCard: FC<IStoryCardProps> = ({ story, onClick }) => {
           </div> */}
 
       {/* {index + 1 === parseInt(story.id) && <StoryComment />} */}
-      {story?.image && <KaImage src={story?.image[0]?.url || ""} draggable="false" objectFit="contain" className="image" />}
+      {swiperSlide.isActive && <video src={story?.video || ""} autoPlay width="100%" height="100%" className="video" ref={videoRef} />}
 
       {/* {story?.video && !story?.image && !story?.audio && <video id="videoStory" autoPlay src={story.video} />}
 

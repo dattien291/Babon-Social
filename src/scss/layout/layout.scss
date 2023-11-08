@@ -1,0 +1,8 @@
+.ks-layout {
+  background-color: rgba($color-gray, 0.5);
+  min-height: 100vh;
+
+  &.-dark {
+    background-color: $black;
+  }
+}
