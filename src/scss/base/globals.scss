@@ -1,7 +1,6 @@
 body {
   font-family: $font-family-body;
   font-weight: $fw-normal;
-  color: $color-gray-700;
 }
 
 ::selection {
@@ -17,6 +16,6 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield;
 }

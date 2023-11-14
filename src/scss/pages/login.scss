@@ -1,0 +1,54 @@
+.ks-login {
+  @include flex-center;
+  @include size(100vw, 100vh);
+
+  > .background {
+    @include full-viewport;
+    background-image: url("/BGSocial.jpg");
+    background-position: center;
+    background-size: cover;
+    z-index: -1;
+
+    @include breakpoint-down(phone) {
+      background-image: url("/BGSocial-2.jpg");
+    }
+  }
+
+  .login-form {
+    @include flex-center;
+    flex-direction: column;
+    padding: 40px 30px 30px 30px;
+    background-color: $white;
+    border-radius: 30px;
+    width: 410px;
+
+    > .logo {
+      @include size(100%, 80px);
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+
+    > .input {
+      margin-bottom: 20px;
+    }
+
+    > .input > .field {
+      @include flex-center-ver;
+      height: 49px;
+      background-image: $line-gradient-primary;
+      border-radius: $border-radius;
+      padding: 2px;
+    }
+
+    > .input > .field > .input {
+      @include size(100%, 99%);
+      font-size: $fs-large;
+      padding: 0px 15px;
+      border-radius: 8px;
+    }
+
+    > .button {
+      margin-bottom: 20px;
+    }
+  }
+}

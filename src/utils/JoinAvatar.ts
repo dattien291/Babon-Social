@@ -1,16 +1,18 @@
+import { get, filter, map, isEqual } from "lodash";
+
 const joinAvatar = (array1: Array<any>, array2: Array<any>) => {
   const checkUsername = (username: string) => {
-    for (let index in array2) {
-      if (array2[index].username === username) {
-        return array2[index].avatar;
-      }
-    }
-    return "";
+    return get(
+      get(
+        filter(array2, (item: any) => isEqual(item?.username, username)),
+        "[0]"
+      ),
+      "avatar",
+      ""
+    );
   };
 
-  let newPost = array1.map((post) => ({ ...post, avatar: checkUsername(post.username) }));
-
-  return newPost;
+  return map(array1, (item) => ({ ...item, avatar: checkUsername(item?.username) }));
 };
 
 export default joinAvatar;

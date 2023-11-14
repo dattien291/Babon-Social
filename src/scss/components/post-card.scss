@@ -1,0 +1,245 @@
+.ks-post-card {
+  background-color: $white;
+  color: $color-gray-700;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: $shadow-primary;
+  border-radius: $border-radius;
+  border-bottom: 1px solid $color-gray;
+
+  &.-dark {
+    background-color: $bg-dark-700;
+    color: $color-light-gray;
+
+    > .header > .information > .group > .date {
+      color: $color-gray;
+    }
+
+    > .body > .text {
+      color: inherit;
+    }
+  }
+
+  > .header {
+    @include flex-center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  > .header > .information {
+    @include flex-center-ver;
+    gap: 10px;
+  }
+
+  > .header > .information > .avatar {
+    @include circle(50px);
+    cursor: pointer;
+
+    &.-skeleton {
+      @include circle(50px);
+      background-color: rgba($color-gray, 0.6);
+    }
+  }
+
+  > .header > .information > .avatar > .image {
+    @include circle(50px);
+  }
+
+  > .header > .information > .group {
+    @include flex-column;
+    font-weight: $fw-semibold;
+  }
+
+  > .header > .information > .group > .name {
+    cursor: pointer;
+    color: inherit;
+
+    &:hover {
+      color: $color-primary;
+      text-decoration: underline;
+    }
+  }
+
+  > .header > .information > .group > .date {
+    @include flex-center-ver;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: $fw-semibold;
+    color: $color-gray-600;
+  }
+
+  > .header > .information > .group > .date > .icon {
+    font-size: 11px;
+  }
+
+  > .body {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $color-gray;
+
+    &.-skeleton {
+      @include size(100%, 60px);
+      background-color: rgba($color-gray, 0.6);
+      border-radius: $border-radius;
+    }
+  }
+
+  > .body > .text {
+    font-weight: $fw-normal;
+    color: $black;
+    margin-bottom: 10px;
+
+    @include breakpoint-down(phone) {
+      @include truncate-multiline-new(2);
+    }
+  }
+
+  > .body > .meta {
+    user-select: none;
+    cursor: pointer;
+  }
+
+  > .body > .meta > .video {
+    @include size(100%, auto);
+    aspect-ratio: 16/9;
+  }
+
+  > .footer {
+    @include flex-center-ver;
+    user-select: none;
+
+    @include breakpoint-up(smallphone) {
+      gap: 36px;
+    }
+
+    @include breakpoint-down(smallphone) {
+      @include flex-center;
+      justify-content: space-between;
+    }
+  }
+
+  > .footer > .option {
+    @include flex-center-ver;
+    font-weight: $fw-semibold;
+    cursor: pointer;
+    font-size: 15px;
+    gap: 6px;
+    color: inherit;
+
+    @include breakpoint-down(phone) {
+      font-size: 14px;
+    }
+
+    @include breakpoint-down(smallphone) {
+      font-size: 13px;
+    }
+  }
+
+  > .footer > .option > .icon {
+    font-size: 20px;
+  }
+
+  &-images {
+    gap: 3px;
+  }
+
+  &-images-1 {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+
+    > .item {
+      @include size(100%, auto);
+      aspect-ratio: 16/9;
+    }
+  }
+
+  &-images-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    > .item {
+      @include size(100%, auto);
+      aspect-ratio: 1/1;
+    }
+  }
+
+  &-images-3 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    > .item:first-child {
+      grid-column-start: 1;
+      grid-column-end: 3;
+    }
+
+    > .item {
+      @include size(100%, auto);
+      aspect-ratio: 16/9;
+    }
+  }
+
+  &-images-4 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    > .item {
+      @include size(100%, auto);
+      aspect-ratio: 16/9;
+    }
+  }
+
+  &-images-5 {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+
+    > .item:nth-child(1) {
+      grid-column-start: 1;
+      grid-column-end: 4;
+
+      @include size(100%, auto);
+      aspect-ratio: 16/9;
+    }
+
+    > .item:nth-child(2) {
+      grid-column-start: 4;
+      grid-column-end: 7;
+
+      @include size(100%, auto);
+      aspect-ratio: 16/9;
+    }
+
+    > .item:nth-child(3) {
+      grid-column-start: 1;
+      grid-column-end: 3;
+
+      @include size(100%, auto);
+      aspect-ratio: 1/1;
+    }
+
+    > .item:nth-child(4) {
+      grid-column-start: 3;
+      grid-column-end: 5;
+
+      @include size(100%, auto);
+      aspect-ratio: 1/1;
+    }
+
+    > .item:nth-child(5) {
+      grid-column-start: 5;
+      grid-column-end: 7;
+
+      @include size(100%, auto);
+      aspect-ratio: 1/1;
+    }
+  }
+
+  &-images-default {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    > .item:first-child {
+      grid-column-start: 1;
+      grid-column-end: 3;
+    }
+  }
+}

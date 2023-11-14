@@ -1,0 +1,25 @@
+$object-fit: (cover, contain, fill, none, scale-down);
+
+.ks-avatar {
+  border-radius: 50%;
+  @include square(100%);
+  cursor: pointer;
+
+  @each $value in $object-fit {
+    &.-#{$value} {
+      object-fit: $value;
+    }
+  }
+
+  &.-sm {
+    @include square(40px);
+  }
+
+  &.-md {
+    @include square(50px);
+  }
+
+  &.-lg {
+    @include square(160px);
+  }
+}

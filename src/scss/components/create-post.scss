@@ -1,0 +1,45 @@
+.ks-create-post {
+  @include flex-center-ver;
+  @include size(100%, 90px);
+  gap: 10px;
+  background-color: $white;
+  color: $color-gray-700;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: $shadow-primary;
+  border-radius: $border-radius;
+  border-bottom: 1px solid $color-gray;
+  cursor: pointer;
+  user-select: none;
+
+  &.-dark {
+    background-color: $bg-dark-700;
+    color: $color-light-gray;
+  }
+
+  > .avatar {
+    @include square(50px);
+  }
+
+  > .field {
+    @include flex-center-ver;
+    @include square(100%);
+    padding: 0 20px;
+    border-radius: 30px;
+    flex: 1;
+    font-size: 16px;
+    color: inherit;
+    background-color: rgba($color-gray-600, 0.2);
+  }
+
+  &-modal {
+    @include flex-center;
+
+    > .box {
+      @include square(fit-content);
+      border-radius: $border-radius;
+      background: $white;
+      padding: 20px;
+    }
+  }
+}

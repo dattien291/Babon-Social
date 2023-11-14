@@ -7,10 +7,14 @@ $colors: (
 .ks-link {
   @include flex-center-ver;
   display: inline-block;
-  font-weight: $fw-bold;
+  font-weight: $fw-semibold;
 
   > .text {
     position: relative;
+  }
+
+  &.-underline:hover {
+    text-decoration: underline;
   }
 
   &.-unset {

@@ -1,0 +1,146 @@
+.ks-profile {
+  > .wrapper {
+    position: relative;
+  }
+
+  > .cover {
+    @include size(100%, 350px);
+    padding: 0 10px;
+    margin: 0 auto;
+
+    @include breakpoint-down(smallphone) {
+      @include size(100%, 250px);
+    }
+  }
+
+  > .wrapper > .header > .group {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+  }
+
+  > .wrapper > .header > .group > .image {
+    @include square(175px);
+    aspect-ratio: 1/1;
+    user-select: none;
+  }
+
+  > .wrapper > .header > .group > .image > .avatar {
+    border: 5px solid $color-primary;
+  }
+
+  > .wrapper > .header > .group > .information {
+    @include flex-column;
+    gap: 6px;
+  }
+
+  > .wrapper > .header > .group > .information > .name {
+    color: $color-primary;
+    font-size: 35px;
+    font-weight: $fw-semibold;
+  }
+
+  > .wrapper > .header > .group > .information > .quantity {
+    color: $black;
+    font-weight: $fw-bold;
+  }
+
+  > .wrapper > .tabs {
+    @include flex-center-ver;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-top: 1px solid rgba($color-gray-600, 0.4);
+    box-shadow: 5px 5px 5px rgba($black, 0.05);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  > .wrapper > .tabs > .button {
+    border-radius: 8px;
+    color: $color-gray-700;
+    font-size: 16px;
+    width: 100px;
+    background-color: transparent;
+
+    &.-active {
+      border-bottom: 2px solid $color-primary;
+    }
+
+    &:hover {
+      color: $color-gray-700;
+      background-color: transparent;
+      opacity: 0.8;
+    }
+  }
+
+  &-cover-picture {
+    @include square(100%);
+    position: relative;
+    max-width: 1500px;
+
+    > .guide {
+      @include abs-center;
+      @include flex-center;
+      @include size(145px, 40px);
+      z-index: 2;
+      color: $white;
+      background-color: rgba($black, 0.5);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    > .edit {
+      @include position(absolute, null, 20px, 10px, null);
+      @include flex-center;
+      padding: 10px;
+      border-radius: $border-radius;
+      background-color: rgba($black, 0.6);
+      color: $white;
+      cursor: pointer;
+    }
+
+    > .image {
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
+    > .preview {
+      @include square(100%);
+    }
+  }
+
+  &-list-friends {
+    @include flex-center-ver;
+    height: 40px;
+
+    > .item {
+      @include square(40px);
+      aspect-ratio: 1/1;
+    }
+
+    > .item > .avatar {
+      box-shadow: 0px 0px 15px rgba($black, 0.3);
+    }
+  }
+
+  &-content {
+    display: flex;
+    gap: 10px;
+
+    > .left {
+      width: 70%;
+
+      @include breakpoint-down(tablet) {
+        width: 100%;
+      }
+    }
+
+    > .right {
+      width: 30%;
+
+      @include breakpoint-down(tablet) {
+        display: none;
+      }
+    }
+  }
+}

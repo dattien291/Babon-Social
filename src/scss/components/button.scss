@@ -7,14 +7,12 @@ $button-variants: (
 
 .ks-button {
   @include flex-center;
-  font-family: $font-family-heading;
-  padding-left: 30px;
-  padding-right: 30px;
-  font-size: $fs-normal;
+  font-family: $font-family-body;
+  font-size: 18px;
   font-weight: $fw-bold;
   border-radius: 50px;
-  height: 42px;
-  transition: background-color 0.2s linear !important;
+  height: 44px;
+  transition: opacity 0.2s linear !important;
 
   @each $variant, $color in $button-variants {
     &.-contained-#{$variant} {
@@ -22,17 +20,13 @@ $button-variants: (
       color: $white;
 
       &:hover {
-        background-color: $color-primary;
+        opacity: 0.8;
       }
-    }
-
-    &.-bg-hover-#{$variant}:hover {
-      background-color: $color !important;
     }
 
     &.-outlined-#{$variant} {
       background-color: transparent;
-      color: $white;
+      color: $color;
       border: 2px solid $color;
 
       &:hover {
@@ -43,16 +37,14 @@ $button-variants: (
   }
 
   &.-contained-light {
-    color: $black;
+    color: $color-gray-600;
+    border: none;
 
     &:hover {
       color: $white;
+      background-color: $color-primary;
+      border: none;
     }
-  }
-
-  &:hover {
-    background: $color-primary;
-    color: $white;
   }
 
   &.-full-width {
@@ -66,7 +58,7 @@ $button-variants: (
   }
 
   &.-md {
-    @include size(163px, 56px);
+    @include size(174px, 43px);
   }
 
   &.-lg {
