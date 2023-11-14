@@ -8,7 +8,7 @@ const STORIES: any = [
     name: "Caryln",
     username: "caryln",
     image: "/picstory.jpg",
-    video: "/videosiri.mp4",
+    video: "/meow.mp4",
     confirmSeen: false,
   },
   {
@@ -16,7 +16,7 @@ const STORIES: any = [
     name: "Rudy",
     username: "rudy",
     image: "/lofichill4.jpg",
-    video: "/videosiri.mp4",
+    video: "/meow1.mp4",
     confirmSeen: false,
   },
   {
@@ -24,7 +24,7 @@ const STORIES: any = [
     name: "Sirikarire",
     username: "sirikakire",
     image: "/chill1.jpg",
-    video: "/videosiri.mp4",
+    video: "/meow2.mp4",
     confirmSeen: false,
   },
   {
@@ -57,7 +57,7 @@ const STORIES: any = [
     name: "Jen",
     username: "christopher",
     image: "/jenstory.jpg",
-    video: "/videosiri.mp4",
+    video: "/meow3.mp4",
     confirmSeen: false,
   },
   {
