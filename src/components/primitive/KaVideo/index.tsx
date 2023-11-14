@@ -1,29 +1,30 @@
 /* eslint-disable @next/next/no-img-element */
 import { isEmpty, includes } from "lodash";
-import { VideoHTMLAttributes, useEffect, useState } from "react";
+import { AudioHTMLAttributes, useEffect, useState } from "react";
 import classNames from "classnames";
 
-export interface IVideoProps extends Omit<VideoHTMLAttributes<HTMLVideoElement>, "src"> {
+export interface IAudioRef extends Omit<AudioHTMLAttributes<HTMLAudioElement>, "src"> {
   src: string;
+  hideOnError?: boolean;
   defaultImage?: string;
   loadingSize?: "sm" | "md" | "lg";
   className?: string;
   [key: string]: any;
 }
 
-const imagePathRegex = /\.(mp4)$/i;
+const audioPathRegex = /\.(mp4)$/i;
 
-export function KaVideo({ src, defaultImage, className, loadingSize = "md", objectFit, ...props }: IVideoProps) {
+export function KaVideo({ src, hideOnError, defaultImage, className, loadingSize = "md", ...props }: IAudioRef) {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const [videoUrl, setVideoUrl] = useState<string>("");
+  const [audioUrl, setAudioUrl] = useState<string>("");
 
   useEffect(() => {
     let isMounted = true;
     setIsLoading(true);
 
-    if (!imagePathRegex.test(src) || isEmpty(src)) {
+    if (!audioPathRegex.test(src) || isEmpty(src)) {
       if (isMounted) {
         setIsError(true);
         setIsLoading(false);
@@ -40,9 +41,9 @@ export function KaVideo({ src, defaultImage, className, loadingSize = "md", obje
         setIsLoading(false);
       }
     };
-    audio.onload = () => {
+    audio.onloadedmetadata = () => {
       if (isMounted) {
-        setVideoUrl(url);
+        setAudioUrl(url);
         setIsLoading(false);
       }
     };
@@ -54,8 +55,8 @@ export function KaVideo({ src, defaultImage, className, loadingSize = "md", obje
   }, [src]);
 
   useEffect(() => {
-    if (videoUrl) setIsLoading(false);
-  }, [videoUrl]);
+    if (audioUrl) setIsLoading(false);
+  }, [audioUrl]);
 
   if (isLoading)
     return (
@@ -64,12 +65,14 @@ export function KaVideo({ src, defaultImage, className, loadingSize = "md", obje
       </div>
     );
 
-  if (isError) return null;
+  if (isError && hideOnError) return null;
 
-  return <video className={classNames("ks-video", className)} src={isError ? defaultImage : videoUrl} {...props} />;
+  return (
+    <video width="100%" height="100%" className={classNames("ks-audio", className)} src={isError ? defaultImage : audioUrl} {...props} />
+  );
 }
 
 KaVideo.defaultProps = {
-  defaultImage: "/images/error.png",
+  defaultImage: "",
   className: "",
 };

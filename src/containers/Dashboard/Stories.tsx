@@ -7,6 +7,7 @@ import { getStories } from "@/assets/fake-data/Stories";
 import { KaImage } from "@/components/primitive";
 import StoriesModal from "./StoriesModal";
 import classNames from "classnames";
+import { breakpoints } from "@/utils/constants";
 
 const Stories: React.FC = () => {
   const [stories, setStories] = useState<any>([]);
@@ -44,12 +45,24 @@ const Stories: React.FC = () => {
           nextEl: ".ks-dashboard-story-list > .action.-right",
           prevEl: ".ks-dashboard-story-list > .action.-left",
         }}
-        spaceBetween={20}
         modules={[Navigation]}
         className="swiper"
-        allowTouchMove={true}
         onActiveIndexChange={handleToggleButtonNavigation}
         draggable="false"
+        breakpoints={{
+          [breakpoints.lg]: {
+            spaceBetween: 20,
+            allowTouchMove: false,
+          },
+          [breakpoints.sm]: {
+            spaceBetween: 15,
+            allowTouchMove: true,
+          },
+          [breakpoints.xs]: {
+            spaceBetween: 10,
+            allowTouchMove: true,
+          },
+        }}
       >
         {!isLoading
           ? map(stories, (item, index) => (
