@@ -58,12 +58,7 @@ export function KaVideo({ src, hideOnError, defaultImage, className, loadingSize
     if (audioUrl) setIsLoading(false);
   }, [audioUrl]);
 
-  if (isLoading)
-    return (
-      <div className="w-100 h-100 rounded-2 bg-success bg-opacity-25 d-flex align-items-center justify-content-center">
-        <div className="animate-pulse w-100 h-100" />
-      </div>
-    );
+  if (isLoading) return <div></div>;
 
   if (isError && hideOnError) return null;
 

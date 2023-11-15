@@ -32,6 +32,7 @@ interface IInputProps {
   nameButton?: string;
   hidden?: boolean;
   accept?: string;
+  theme?: boolean;
 }
 
 export const GroupInput: FC<IInputProps> = ({
@@ -63,6 +64,7 @@ export const GroupInput: FC<IInputProps> = ({
   nameButton,
   hidden,
   accept,
+  theme,
 }) => {
   const invalid: Boolean = !!error && !!touched;
 
@@ -77,6 +79,7 @@ export const GroupInput: FC<IInputProps> = ({
         { "-has-icon": icon },
         { "-divider": !!dividerStart || !!dividerEnd },
         { "-hidden": hidden },
+        { "-dark": theme },
         `-${size}`,
         className
       )}
@@ -137,4 +140,5 @@ GroupInput.defaultProps = {
   nameButton: "",
   hidden: false,
   accept: "",
+  theme: false,
 };

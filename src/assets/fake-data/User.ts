@@ -20,7 +20,7 @@ let USERS: any = [
     name: "HoaEmi",
     username: "hoaemi",
     password: "123456",
-    avatar: "/hoaemi.jpg",
+    avatar: "https://i.pinimg.com/736x/eb/8f/ef/eb8fef805ac91de7edeb3b9647cb33de.jpg",
     bio: "💚 Hi, I'm HoaEmi 💚",
     coverPicture: "https://i.pinimg.com/564x/e8/2d/c7/e82dc7c82cc5dec0145a2fa8cf21eff4.jpg",
     friends: [
@@ -34,7 +34,7 @@ let USERS: any = [
     name: "Emily",
     username: "emily",
     password: "123456",
-    avatar: "/avataremmy.jpg",
+    avatar: "https://i.pinimg.com/736x/49/bf/fe/49bffe149353fc16e64426463ff2d855.jpg",
     bio: "🍉🍉 Hi, I'm Emily",
     coverPicture: "/coverimageprofile2.jpg",
     friends: [
@@ -45,11 +45,11 @@ let USERS: any = [
   },
   {
     id: uuid(),
-    name: "𝙏𝙧𝙉𝙜𝙪𝙮𝙚𝙣𝘼𝙣𝙝𝘿𝙪𝙮",
+    name: "TrNguyenAnhDuy",
     username: "anhduy",
     password: "123456",
-    avatar: "/avataranhduy.jpg",
-    bio: "Hi, I'm 𝙏𝙧𝙉𝙜𝙪𝙮𝙚𝙣𝘼𝙣𝙝𝘿𝙪𝙮 💜",
+    avatar: "https://i.pinimg.com/736x/08/78/0c/08780c623015ec01d5fe0364aabfff16.jpg",
+    bio: "Hi, I'm TrNguyenAnhDuy 💜",
     friends: [
       { username: "hieu123", avatar: "/avatarhieu123.jpg" },
       { username: "sirikakire", avatar: "/shirikane.jpg" },
@@ -61,7 +61,7 @@ let USERS: any = [
     name: "Sirikakire",
     username: "sirikakire",
     password: "123456",
-    avatar: "/shirikane.jpg",
+    avatar: "https://i.pinimg.com/564x/da/9a/46/da9a4641ec05835561fb0486729270af.jpg",
     bio: "💜 Hi, I'm Sirikakire 💜",
     coverPicture: "/coverimageprofile3.jpg",
     friends: [
@@ -75,7 +75,7 @@ let USERS: any = [
     name: "Caryln",
     username: "caryln",
     password: "123456",
-    avatar: "/caryln.jpg",
+    avatar: "https://i.pinimg.com/564x/75/03/6a/75036a34bd1f8f3a49037cc1f9290106.jpg",
     bio: "💙 Don’t let a bad day make you feel like you have a bad life. 💕💕",
     friends: [
       { username: "hieu123", avatar: "/avatarhieu123.jpg" },
@@ -88,7 +88,7 @@ let USERS: any = [
     name: "Rudy",
     username: "rudy",
     password: "123456",
-    avatar: "/avataranime.jpg",
+    avatar: "https://i.pinimg.com/564x/f5/9a/74/f59a740cb12b21b32fca3c631eb925c7.jpg",
     bio: "💙 There are days like that, quietly, not sad, not happy, slowly drift… the end of a day.",
     friends: [
       { username: "hieu123", avatar: "/avatarhieu123.jpg" },
@@ -101,7 +101,7 @@ let USERS: any = [
     name: "William",
     username: "william",
     password: "123456",
-    avatar: "",
+    avatar: "https://i.pinimg.com/736x/c7/a8/e1/c7a8e136163f4d3d4b51d43c5a6dc400.jpg",
     bio: "Hi, I'm William",
     friends: [
       { username: "hieu123", avatar: "/avatarhieu123.jpg" },
@@ -114,7 +114,7 @@ let USERS: any = [
     name: "Laura",
     username: "laura",
     password: "123456",
-    avatar: "/laura.jpg",
+    avatar: "https://i.pinimg.com/736x/49/6a/dd/496add80b4f57ddeea4a9b9e0daa4c26.jpg",
     bio: "Hi, I'm Laura",
     friends: [
       { username: "hieu123", avatar: "/avatarhieu123.jpg" },
@@ -140,7 +140,7 @@ let USERS: any = [
     name: "Jacintha",
     username: "jacintha",
     password: "123456",
-    avatar: "/avatarjathinca.jpg",
+    avatar: "https://i.pinimg.com/736x/ee/72/9e/ee729eda45763146823fc4f440f6f7a6.jpg",
     bio: "Hi, I'm Jacintha 💕💕",
     friends: [
       { username: "hieu123", avatar: "/avatarhieu123.jpg" },
@@ -153,7 +153,7 @@ let USERS: any = [
     name: "Isa",
     username: "isa",
     password: "123456",
-    avatar: "/avatarisa.jpg",
+    avatar: "https://i.pinimg.com/736x/f5/63/51/f563515b628c16283eb35ae755ff7c2e.jpg",
     bio: "Hi, I'm Isa 💕💕",
     friends: [
       { username: "hieu123", avatar: "/avatarhieu123.jpg" },
@@ -166,7 +166,7 @@ let USERS: any = [
     name: "Lucinda",
     username: "lucinda",
     password: "123456",
-    avatar: "/lucinda.jpg",
+    avatar: "https://i.pinimg.com/736x/89/4a/3f/894a3fa234c94ed92381f748cf5aa039.jpg",
     bio: "Hi, I'm Lucinda 💕💕",
     friends: [
       { username: "hieu123", avatar: "/avatarhieu123.jpg" },
@@ -179,7 +179,7 @@ let USERS: any = [
     name: "Marabel",
     username: "marabel",
     password: "123456",
-    avatar: "/marabel.jpg",
+    avatar: "https://i.pinimg.com/564x/38/52/d2/3852d25993501a342dc918d4e7eeaad3.jpg",
     bio: "Hi, I'm Marabel 💕💕",
     friends: [
       { username: "hieu123", avatar: "/avatarhieu123.jpg" },
@@ -192,7 +192,7 @@ let USERS: any = [
     name: "Lisa",
     username: "lisa",
     password: "123456",
-    avatar: "/lisa.jpg",
+    avatar: "https://i.pinimg.com/564x/f5/63/51/f563515b628c16283eb35ae755ff7c2e.jpg",
     bio: "Hi, I'm Lisa 💕💕",
     friends: [
       { username: "hieu123", avatar: "/avatarhieu123.jpg" },
@@ -205,7 +205,7 @@ let USERS: any = [
     name: "Serena",
     username: "serena",
     password: "123456",
-    avatar: "/serena.jpg",
+    avatar: "https://i.pinimg.com/564x/d3/4e/76/d34e76c57d6dfe31b802bd2f7c697160.jpg",
     bio: "Hi, I'm Serena 💕💕",
     friends: [
       { username: "hieu123", avatar: "/avatarhieu123.jpg" },
@@ -218,7 +218,7 @@ let USERS: any = [
     name: "Jen",
     username: "christopher",
     password: "123456",
-    avatar: "/hieupost1.jpg",
+    avatar: "https://i.pinimg.com/736x/f4/33/d0/f433d0dcaa1f97bf72646f5daf7e05ee.jpg",
     bio: "Hi, I'm Jen 💕💕",
     friends: [
       { username: "hieu123", avatar: "/avatarhieu123.jpg" },
@@ -231,7 +231,7 @@ let USERS: any = [
     name: "Chae",
     username: "chae",
     password: "123456",
-    avatar: "/chae.jpg",
+    avatar: "https://i.pinimg.com/564x/ce/38/db/ce38db7e58e9f6e8598dddf2d9516fdb.jpg",
     bio: "Hi, I'm Chae 💕💕",
     friends: [
       { username: "hieu123", avatar: "/avatarhieu123.jpg" },

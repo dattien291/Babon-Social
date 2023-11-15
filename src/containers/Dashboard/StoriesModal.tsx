@@ -1,11 +1,9 @@
+import { StoryCard } from "@/components/compound";
 import { Modal } from "@mui/material";
-import { map } from "lodash";
-import { FC, useRef, useState, useEffect } from "react";
+import { isEqual, map } from "lodash";
+import { FC, useEffect, useRef, useState } from "react";
 import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { StoryCard } from "@/components/compound";
-import classNames from "classnames";
-import { breakpoints } from "@/utils/constants";
 
 interface IStoriesModalProps {
   open: boolean;
@@ -15,69 +13,72 @@ interface IStoriesModalProps {
 }
 
 const StoriesModal: FC<IStoriesModalProps> = ({ open, onClose, active, dataStories }) => {
-  const [index, setIndex] = useState<number>(-1);
-  const [timePause, setTimePause] = useState<boolean>(false);
-  const [mute, setMute] = useState<boolean>(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoDuration, setVideoDuration] = useState<number>(0);
-  const [videoStart, setVideoStart] = useState<boolean>(false);
   const swiperRef: any = useRef(null);
-
-  // useEffect(() => {
-  //   if (audioRef.current && open) {
-  //     timePause ? audioRef.current.pause() : audioRef.current.play();
-  //     audioRef.current.muted = mute;
-  //   } else if (videoRef.current && open) {
-  //     timePause ? videoRef.current.pause() : videoRef.current.play();
-  //     videoRef.current.muted = mute;
-  //   }
-  // }, [timePause, mute]);
+  const [hiddenButtonNavigation, setHiddenButtonNavigation] = useState<"left" | "right" | null>(null);
 
   useEffect(() => {
-    if (!open) return;
+    if (open && isEqual(active, 0)) setHiddenButtonNavigation("left");
+  }, [open]);
 
-    const timer = setTimeout(() => {
-      swiperRef?.current?.swiper?.slideTo(active);
-    }, 0);
+  const handleNext = () => {
+    swiperRef?.current?.swiper?.slideNext();
+  };
 
-    return () => {
-      clearTimeout(timer);
+  const handlePrev = () => {
+    swiperRef?.current?.swiper?.slidePrev();
+  };
+
+  useEffect(() => {
+    const handleAction = (event: KeyboardEvent) => {
+      if (!swiperRef?.current) return;
+      if (event.key === "ArrowRight") handleNext();
+      if (event.key === "ArrowLeft") handlePrev();
     };
+
+    open && document.addEventListener("keyup", handleAction);
+
+    return () => document.removeEventListener("keyup", handleAction);
   }, [open]);
 
   const handleActive = (index: number) => {
     swiperRef?.current?.swiper?.slideTo(index);
   };
 
-  const handleNext = () => {
-    swiperRef?.current?.swiper?.slideNext();
+  const handleSlideChange = (event: any) => {
+    if (event?.isBeginning) setHiddenButtonNavigation("left");
+    else if (event?.isEnd) setHiddenButtonNavigation("right");
+    else setHiddenButtonNavigation(null);
   };
 
   return (
     <Modal
       open={open}
       onClose={onClose}
-      className={classNames("ks-stories-modal")}
+      className="ks-stories-modal"
       classes={{ root: "ks-stories-modal-root", backdrop: "ks-stories-modal-backdrop" }}
     >
       <div className="box">
         <Swiper
+          initialSlide={Number(active)}
           modules={[Navigation]}
-          navigation={{
-            nextEl: ".ks-story-list > .action.-right",
-            prevEl: ".ks-story-list > .action.-left",
-          }}
           className="ks-story-slides swiper"
           slidesPerView={"auto"}
           centeredSlides
           ref={swiperRef}
           allowTouchMove={false}
           speed={500}
+          onSlideChange={handleSlideChange}
         >
           {map(dataStories, (story, index) => (
             <SwiperSlide key={index} className="ks-story-slide slide" style={{ width: "375px" }}>
-              <StoryCard story={story} onClick={() => handleActive(Number(index))} onNext={handleNext} />
+              <StoryCard
+                story={story}
+                onClick={() => handleActive(Number(index))}
+                isBeginning={isEqual(hiddenButtonNavigation, "left")}
+                isEnd={isEqual(hiddenButtonNavigation, "right")}
+                onNext={handleNext}
+                onPrev={handlePrev}
+              />
             </SwiperSlide>
           ))}
         </Swiper>

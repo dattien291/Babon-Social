@@ -1,15 +1,14 @@
-import { Skeleton } from "@mui/material";
+import { KaImage } from "@/components/primitive";
+import { breakpoints } from "@/utils/constants";
+import classNames from "classnames";
 import { isEqual, map, times } from "lodash";
-import React, { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { getStories } from "@/assets/fake-data/Stories";
-import { KaImage } from "@/components/primitive";
 import StoriesModal from "./StoriesModal";
-import classNames from "classnames";
-import { breakpoints } from "@/utils/constants";
+import { storyServices } from "@/assets/fake-data/Stories";
 
-const Stories: React.FC = () => {
+const Stories: FC = () => {
   const [stories, setStories] = useState<any>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [storySelected, setStorySelected] = useState<number>(0);
@@ -19,7 +18,7 @@ const Stories: React.FC = () => {
   useEffect(() => {
     const fetchStories = async () => {
       setIsLoading(true);
-      const res = await getStories();
+      const res = await storyServices.getStories({ page: 1, limit: 1 });
       if (res) setStories(res);
       setIsLoading(false);
     };
@@ -28,6 +27,11 @@ const Stories: React.FC = () => {
   }, []);
 
   const handleCloseModal = () => setOpenModal(false);
+
+  const handleOpenModal = (index: number) => (event: any) => {
+    setStorySelected(index);
+    setOpenModal(true);
+  };
 
   const handleToggleButtonNavigation = (event: any) => {
     if (event?.isBeginning) setHiddenButtonNavigation("left");
@@ -67,16 +71,12 @@ const Stories: React.FC = () => {
         {!isLoading
           ? map(stories, (item, index) => (
               <SwiperSlide key={index} className="slide" style={{ width: "130px" }}>
-                <div
-                  className="ks-dashboard-story-item"
-                  onClick={() => {
-                    setStorySelected(Number(index));
-                    setOpenModal(true);
-                  }}
-                >
+                <div className="ks-dashboard-story-item" onClick={handleOpenModal(Number(index) || 0)}>
                   <div className="information">
-                    <KaImage src={item?.avatar || ""} alt={item?.avatar || ""} objectFit="cover" className="avatar" />
-                    {item.name}
+                    <div className="avatar">
+                      <KaImage src={item?.author?.avatar || ""} alt="story-item" objectFit="cover" className="image" draggable="false" />
+                    </div>
+                    <span className="name">{item?.author?.name}</span>
                   </div>
 
                   <KaImage src={item?.image || ""} objectFit="cover" draggable="false" />

@@ -3,15 +3,14 @@ import { Avatar, Button, KaImage, KaLink } from "@/components/primitive";
 import { ThemeContext } from "@/contexts/Theme";
 import { usePostsInfiniteQuery, usePostsQuery } from "@/features/posts";
 import KsLayout from "@/layout";
-import { RANDOM } from "@/utils/constants";
 import classNames from "classnames";
 import { flatMap, get, isEmpty } from "lodash";
 import { FC, useContext, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
+import Switch from "./KaSwitch";
 import Sidebar from "./Sidebar";
 import Stories from "./Stories";
-import Switch from "./KaSwitch";
 
 const DashBoard: FC = () => {
   const userInfo = useSelector((state: any) => state?.auth?.userInfo);
@@ -116,12 +115,12 @@ const DashBoard: FC = () => {
                 >
                   <div className={classNames("avatar", { "-skeleton": isLoadingTrendingPost })}>
                     {!isLoadingTrendingPost && (
-                      <Avatar src={!isEmpty(trendingPost) && get(trendingPost, "[0].avatar", "")} objectFit="cover" size="md" />
+                      <Avatar src={!isEmpty(trendingPost) && get(trendingPost, "[0].author.avatar", "")} objectFit="cover" size="md" />
                     )}
                   </div>
 
                   <div className="info">
-                    <span className="name">{!isEmpty(trendingPost) && get(trendingPost, "[0].name", "")}</span>
+                    <span className="name">{!isEmpty(trendingPost) && get(trendingPost, "[0].author.name", "")}</span>
                   </div>
                 </KaLink>
               </div>
