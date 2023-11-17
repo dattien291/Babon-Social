@@ -2,6 +2,14 @@
   width: 100%;
   position: relative;
 
+  &.-dark > .field > .input {
+    color: $white;
+
+    &::placeholder {
+      color: $color-light-gray;
+    }
+  }
+
   &.-hidden {
     display: none;
   }
@@ -13,7 +21,7 @@
     position: relative;
     border: 1px solid $border-color;
     border-radius: 4px;
-    background-color: $white;
+    background-color: transparent;
   }
 
   > .field > .input {
@@ -22,6 +30,7 @@
     border: none;
     font-weight: $fw-normal;
     font-size: $fs-normal;
+    background-color: transparent;
 
     &::placeholder {
       color: $color-gray-700;

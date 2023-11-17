@@ -1,52 +1,152 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useContext, useEffect, useRef, useState } from "react";
 import { useSwiperSlide } from "swiper/react";
-
-import classNames from "classnames";
-import { KaImage, KaVideo } from "@/components/primitive";
-import { isEmpty } from "lodash";
-import Progress from "./Progress";
+import { Avatar, KaImage, KaVideo } from "@/components/primitive";
+import { $ } from "@/utils/constants";
 import { CircularProgress } from "@mui/material";
+import classNames from "classnames";
+import { isEqual } from "lodash";
+import { GroupInput } from "@/components/compound";
 
 interface IStoryCardProps {
   story: any;
   onClick: () => void;
   onNext: () => void;
+  onPrev: () => void;
+  isBeginning?: boolean;
+  isEnd?: boolean;
 }
 
-export const StoryCard: FC<IStoryCardProps> = ({ story, onClick, onNext }) => {
+export const StoryCard: FC<IStoryCardProps> = ({ story, onClick, onNext, onPrev, isBeginning, isEnd }) => {
   const swiperSlide = useSwiperSlide();
   const [metadata, setMetadata] = useState<any>({
     isLoading: true,
     duration: 0,
   });
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+
+  const [isPlaying, setIsPlaying] = useState<boolean>(true);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
+
+  const handleTimeUpdate = (event: any) => {
+    if (isEqual(event.target.currentTime, event.target.duration)) onNext();
+
+    const progress: any = $("#story-card-progress");
+    progress.style.width = `${(event.target.currentTime / event.target.duration) * 100}%`;
+  };
+
+  const handleTogglePause = () => {
+    const video: any = $("#story-video");
+    if (!video) return;
+
+    if (!video?.paused) {
+      video.pause();
+      setIsPlaying(false);
+    } else {
+      video.play();
+      setIsPlaying(true);
+    }
+  };
+
+  const handleToggleMute = () => {
+    const video: any = $("#story-video");
+
+    if (!video) return;
+
+    if (video?.muted) {
+      video.muted = false;
+      setIsMuted(false);
+    } else {
+      video.muted = true;
+      setIsMuted(true);
+    }
+  };
 
   return (
     <div
       className={classNames(
         "ks-story-card",
         { "-active": swiperSlide.isActive },
+        { "-inactive": !swiperSlide.isActive },
         { "-next": swiperSlide.isNext },
         { "-prev": swiperSlide.isPrev }
       )}
-      onClick={onClick}
     >
       <div className="blur">
-        <KaImage src={story?.image || ""} objectFit="cover" className={classNames("image", { "-active": swiperSlide?.isActive })} />
+        <KaImage src={story?.image || ""} objectFit="cover" className="image" />
       </div>
 
-      {swiperSlide?.isActive && <Progress onNext={onNext} playing={isPlaying} metadata={metadata} />}
+      {!swiperSlide?.isActive && (
+        <div className="content" onClick={onClick}>
+          <div className="normal">
+            <div className="information">
+              <div className="avatar">
+                <Avatar src={story?.author?.avatar || ""} objectFit="cover" />
+              </div>
+              <span className="name">{story?.author?.name}</span>
+            </div>
+          </div>
+        </div>
+      )}
 
-      {swiperSlide.isActive && (
-        <KaVideo
-          src={story?.video || ""}
-          width="100%"
-          height="100%"
-          className={classNames("video", { "-hidden": metadata.isLoading })}
-          autoPlay
-          onLoadedMetadata={(event: any) => setMetadata({ isLoading: false, duration: Number(event?.target?.duration) || 0 })}
-          onPlaying={(event: any) => setIsPlaying(true)}
-        />
+      {swiperSlide?.isActive && (
+        <>
+          <div className="content">
+            <button className={classNames("action -left", { "-hidden": isBeginning })} onClick={onPrev}>
+              <i className="fa-solid fa-chevron-left"></i>
+            </button>
+
+            <button className={classNames("action -right", { "-hidden": isEnd })} onClick={onNext}>
+              <i className="fa-solid fa-chevron-right"></i>
+            </button>
+
+            <div className="header">
+              <div className="ks-story-card-progress">
+                <span className="slide" id="story-card-progress" />
+              </div>
+
+              <div className="navigation">
+                <div className="group">
+                  <div className="information">
+                    <div className="avatar">
+                      <Avatar src={story?.author?.avatar || ""} className="image" objectFit="cover" size="sm" />
+                    </div>
+
+                    <span className="name">{story?.author?.name}</span>
+                  </div>
+
+                  <div className="action">
+                    <i
+                      className={classNames("fa-solid ", { "fa-play": !isPlaying }, { "fa-pause": isPlaying })}
+                      onClick={handleTogglePause}
+                    />
+                    <i
+                      className={classNames("fa-solid ", { "fa-volume": !isMuted }, { "fa-volume-xmark": isMuted })}
+                      onClick={handleToggleMute}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="footer">
+              <GroupInput className="input" placeholder="Comment..." />
+              <span className="icon">
+                ❤️
+                <span className="fly">❤️</span>
+              </span>
+            </div>
+          </div>
+
+          <KaVideo
+            id="story-video"
+            className={classNames("video", { "-hidden": metadata.isLoading })}
+            src={story?.video || ""}
+            width="100%"
+            height="100%"
+            autoPlay
+            onLoadedMetadata={(event: any) => setMetadata({ isLoading: false, duration: Number(event?.target?.duration) || 0 })}
+            onTimeUpdate={handleTimeUpdate}
+          />
+        </>
       )}
 
       {swiperSlide.isActive && metadata.isLoading && (
@@ -54,47 +154,6 @@ export const StoryCard: FC<IStoryCardProps> = ({ story, onClick, onNext }) => {
           <CircularProgress color="secondary" className="spinner" />
         </div>
       )}
-
-      {/* {index === parseInt(story.id) - 1 && open ? (
-          <TimeNext
-            timePause={timePause}
-            open={open}
-            handleNextStory={handleNextStory}
-            videoDuration={videoDuration}
-            videoStart={videoStart}
-          />
-        ) : (
-          <></>
-        )} */}
-      {/* <div className="information">
-            <div className="avatar-friend">
-              <img src={story?.avatar} />
-            </div>
-            <span>{story.name}</span>
-          </div> */}
-
-      {/* <div style={{ display: "flex", gap: "10px" }}>
-            <button onClick={() => setTimePause((prev) => !prev)}>
-              {timePause ? <RiPlayFill></RiPlayFill> : <span className="btn-pause"></span>}
-            </button>
-            <button onClick={() => setMute((prev) => !prev)}>
-              {mute ? <RiVolumeMuteFill></RiVolumeMuteFill> : <RiVolumeUpFill></RiVolumeUpFill>}
-            </button>
-            <button>
-              <RiMoreFill></RiMoreFill>
-            </button>
-          </div> */}
-
-      {/* {index + 1 === parseInt(story.id) && <StoryComment />} */}
-      {/* {swiperSlide.isActive && <video src={story?.video || ""} autoPlay width="100%" height="100%" className="video" ref={videoRef} />} */}
-
-      {/* {story?.video && !story?.image && !story?.audio && <video id="videoStory" autoPlay src={story.video} />}
-
-        {!story?.video && story?.image && !story?.audio && (
-          <KaImage src={story?.image[0]?.url || ""} draggable="false" objectFit="cover" />
-        )}
-
-        {!story?.video && !story?.image && story?.audio && <audio autoPlay src={story.audio} />} */}
     </div>
   );
 };

@@ -53,7 +53,7 @@ export const PostList: FC<IListPostsProps> = ({ posts }) => {
             <div className="information">
               <div className="avatar" onClick={() => navigate(`/profile/${item?.username}`)}>
                 <KaImage
-                  src={isEqual(item?.username, userInfo?.username) ? userInfo?.avatar : item?.avatar}
+                  src={isEqual(item?.username, userInfo?.username) ? userInfo?.avatar : item?.author?.avatar}
                   alt="avatar"
                   className="image"
                   objectFit="cover"
@@ -62,7 +62,7 @@ export const PostList: FC<IListPostsProps> = ({ posts }) => {
 
               <div className="group">
                 <span className="name" onClick={() => navigate(`/profile/${item?.username}`)}>
-                  {item?.name}
+                  {item?.author?.name || ""}
                 </span>
                 <span className="date">
                   {isValid(new Date(item?.createdAt)) ? format(parseISO(item?.createdAt), "d MMM, yyyy") : ""}
@@ -114,7 +114,7 @@ export const PostList: FC<IListPostsProps> = ({ posts }) => {
                 >
                   {map(slice(item?.image), (src: string, index: number) => (
                     <li key={index} className="item" onClick={handleOpenModal({ active: index, post: item })}>
-                      <KaImage src={src || ""} alt="image" objectFit="cover" />
+                      <KaImage src={src || ""} alt="image" objectFit="cover" draggable="false" />
                     </li>
                   ))}
                 </ul>

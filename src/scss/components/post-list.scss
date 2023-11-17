@@ -3,6 +3,13 @@
     @include flex-center;
     position: relative;
 
+    &.-dark {
+      > .box > .content > .right {
+        background-color: $black;
+        color: $color-light-gray;
+      }
+    }
+
     > .box {
       @include size(80%, 92%);
       overflow: hidden;
@@ -207,6 +214,12 @@
   &-modal-comment-card {
     display: flex;
     gap: 10px;
+
+    &.-dark {
+      > .information {
+        background-color: $bg-dark-700;
+      }
+    }
 
     > .avatar {
       @include square(40px);

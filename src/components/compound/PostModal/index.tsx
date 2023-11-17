@@ -2,7 +2,7 @@ import { Avatar, KaImage } from "@/components/primitive";
 import { Modal } from "@mui/material";
 import classNames from "classnames";
 import { isEmpty, isEqual, map, size } from "lodash";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useContext, useEffect, useRef, useState } from "react";
 import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { GroupInput } from "../GroupInput";
@@ -10,6 +10,7 @@ import { selectUserInfo } from "@/store/auth/selectors";
 import { useAppSelector } from "@/store/hooks";
 import { useNavigate } from "react-router-dom";
 import { format, isValid, parseISO } from "date-fns";
+import { ThemeContext } from "@/contexts/Theme";
 
 interface IPostModal {
   open: boolean;
@@ -18,21 +19,17 @@ interface IPostModal {
 }
 
 export const PostModal: FC<IPostModal> = ({ open, onClose, dataPostModal }) => {
-  const [hiddenButtonNavigation, setHiddenButtonNavigation] = useState<"left" | "right" | null>("left");
+  const [hiddenButtonNavigation, setHiddenButtonNavigation] = useState<"left" | "right" | "all" | null>(null);
   const swiperRef: any = useRef(null);
   const userInfo = useAppSelector(selectUserInfo);
   const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     if (!open) return;
 
-    const timer = setTimeout(() => {
-      swiperRef?.current?.swiper?.slideTo(Number(dataPostModal?.active) || 0);
-    }, 0);
-
-    return () => {
-      clearTimeout(timer);
-    };
+    if (dataPostModal?.active === 0) setHiddenButtonNavigation("left");
+    else if (size(dataPostModal?.post) === 1) setHiddenButtonNavigation("all");
   }, [open]);
 
   const handleToggleButtonNavigation = (event: any) => {
@@ -42,7 +39,7 @@ export const PostModal: FC<IPostModal> = ({ open, onClose, dataPostModal }) => {
   };
 
   return (
-    <Modal open={open} onClose={onClose} className="ks-post-modal">
+    <Modal open={open} onClose={onClose} className={classNames("ks-post-modal", { "-dark": theme })}>
       <div className="box">
         <button className="close" onClick={onClose}>
           <i className="icon fa-regular fa-xmark" />
@@ -51,6 +48,7 @@ export const PostModal: FC<IPostModal> = ({ open, onClose, dataPostModal }) => {
         <div className="content">
           <div className="left">
             <Swiper
+              initialSlide={Number(dataPostModal?.active) || 0}
               modules={[Navigation]}
               className="swiper ks-post-modal-slides"
               draggable="false"
@@ -59,7 +57,7 @@ export const PostModal: FC<IPostModal> = ({ open, onClose, dataPostModal }) => {
                 nextEl: ".ks-post-modal > .box > .content > .left > .action.-right",
                 prevEl: ".ks-post-modal > .box > .content > .left > .action.-left",
               }}
-              onActiveIndexChange={handleToggleButtonNavigation}
+              onSlideChange={handleToggleButtonNavigation}
               ref={swiperRef}
             >
               {!isEmpty(dataPostModal?.post?.image) &&
@@ -87,12 +85,12 @@ export const PostModal: FC<IPostModal> = ({ open, onClose, dataPostModal }) => {
               <div className="header">
                 <div className="information">
                   <div className="avatar" onClick={() => navigate(`/profile/${dataPostModal?.post?.username}`)}>
-                    <KaImage src={dataPostModal?.post?.avatar || ""} alt="avatar" className="image" objectFit="cover" />
+                    <KaImage src={dataPostModal?.post?.author?.avatar || ""} alt="avatar" className="image" objectFit="cover" />
                   </div>
 
                   <div className="group">
                     <span className="name" onClick={() => navigate(`/profile/${dataPostModal?.post?.username}`)}>
-                      {dataPostModal?.post?.name}
+                      {dataPostModal?.post?.author?.name}
                     </span>
                     <span className="date">
                       {isValid(new Date(dataPostModal?.post?.createdAt))
@@ -114,7 +112,7 @@ export const PostModal: FC<IPostModal> = ({ open, onClose, dataPostModal }) => {
                 <ul className="ks-post-modal-comments">
                   {map(dataPostModal?.post?.comments, (comment, index) => (
                     <li className="item" key={index}>
-                      <div className="ks-post-modal-comment-card">
+                      <div className={classNames("ks-post-modal-comment-card", { "-dark": theme })}>
                         <div className="avatar">
                           <Avatar src={comment?.avatar} objectFit="cover" />
                         </div>
@@ -137,7 +135,7 @@ export const PostModal: FC<IPostModal> = ({ open, onClose, dataPostModal }) => {
               </div>
 
               <form className="form">
-                <GroupInput type="text" placeholder="Write a comment..." className="group" />
+                <GroupInput type="text" placeholder="Write a comment..." className="group" theme={theme} />
               </form>
             </div>
           </div>

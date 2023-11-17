@@ -1,29 +1,211 @@
 .ks-story-card {
   position: relative;
   height: 100%;
-  transform: scale(0.7);
-  opacity: 0.5;
   border-radius: 15px;
   transition: transform 0.3s linear;
   cursor: pointer;
   padding: 20px;
+  color: $white;
 
   &.-active {
     transform: scale(1);
     opacity: 1;
+    position: relative;
+
+    &:hover {
+      > .content > .action {
+        opacity: 1;
+      }
+    }
+
+    > .blur > .image {
+      opacity: 0.7;
+      filter: blur(20px);
+    }
+
+    > .content {
+      @include square(100%);
+      @include flex-column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    > .content > .action {
+      @include abs-center-ver;
+      @include circle(25px);
+      color: $color-gray-900;
+      background-color: rgba($color-gray, 1);
+      font-size: 12px;
+      z-index: 3;
+      cursor: pointer;
+      opacity: 0.4;
+      transition: opacity 0.2s linear;
+      transition-delay: 0.1s;
+
+      &.-hidden {
+        @include hidden;
+      }
+
+      &.-left {
+        left: -55px;
+
+        @include breakpoint-down(smallphone) {
+          left: 0;
+        }
+      }
+
+      &.-right {
+        right: -55px;
+
+        @include breakpoint-down(smallphone) {
+          right: 0;
+        }
+      }
+    }
+
+    > .content > .header > .navigation {
+      color: $white;
+      z-index: 2;
+      position: relative;
+      margin-top: 12px;
+    }
+
+    > .content > .header > .navigation > .group {
+      @include flex-center-ver;
+      justify-content: space-between;
+    }
+
+    > .content > .header > .navigation > .group > .information {
+      @include flex-center-ver;
+      gap: 6px;
+    }
+
+    > .content > .header > .navigation > .group > .information > .avatar {
+      @include square(40px);
+      aspect-ratio: 1/1;
+    }
+
+    > .content > .header > .navigation > .group > .information > .name {
+      font-weight: $fw-semibold;
+    }
+
+    > .content > .header > .navigation > .group > .action {
+      @include flex-center-ver;
+      gap: 12px;
+      font-size: 18px;
+    }
+
+    > .content > .footer {
+      z-index: 2;
+      @include flex-center-ver;
+      gap: 3px;
+    }
+
+    > .content > .footer > .input > .field {
+      border-radius: 50px;
+      border: 2px solid $white;
+    }
+
+    > .content > .footer > .input > .field > .input {
+      color: inherit;
+      &::placeholder {
+        color: $white;
+      }
+    }
+
+    > .content > .footer > .icon {
+      position: relative;
+      line-height: 1;
+      font-size: 30px;
+      opacity: 1;
+
+      &:not(:active) > .fly {
+        animation: fly-heart 2s 1 linear;
+      }
+
+      @keyframes fly-heart {
+        25% {
+          top: -50px;
+          left: -20px;
+          opacity: 1;
+        }
+        50% {
+          top: -100px;
+          left: 0px;
+          opacity: 0.8;
+          transform: scale(1.5);
+        }
+        75% {
+          top: -150px;
+          left: -20px;
+          opacity: 0.5;
+          transform: scale(2);
+        }
+        100% {
+          top: -200px;
+          left: 0px;
+          opacity: 0.2;
+          transform: scale(2.5);
+        }
+      }
+    }
+
+    > .content > .footer > .icon > .fly {
+      position: absolute;
+      inset: 0;
+    }
+  }
+
+  &.-inactive {
+    transform: scale(0.7);
+
+    @include breakpoint-down(smallphone) {
+      display: none;
+    }
+
+    > .blur {
+      opacity: 0.4;
+    }
+
+    > .content {
+      @include square(100%);
+      @include flex-center;
+    }
+
+    > .content > .normal > .information {
+      @include flex-column;
+      @include flex-center-ver;
+      gap: 6px;
+    }
+
+    > .content > .normal > .information > .avatar {
+      @include square(80px);
+      aspect-ratio: 1/1;
+    }
+
+    > .content > .normal > .information > .name {
+      font-size: 20px;
+      font-weight: $fw-bold;
+    }
   }
 
   > .video {
     position: absolute;
     inset: 0;
+    z-index: 0;
 
     &.-hidden {
       display: none;
     }
 
     &.-loading {
-      @include square(fit-content);
-      @include abs-center;
+      @include square(100%);
+      @include flex-center;
+      position: absolute;
+      inset: 0;
+      background-color: rgba($black, 0.6);
+      border-radius: 15px;
+      pointer-events: none;
     }
 
     &.-loading > .spinner {
@@ -41,30 +223,20 @@
     overflow: hidden;
   }
 
-  > .blur > .image {
-    @include square(100%);
-    filter: blur(5px);
-    border-radius: 15px;
-    opacity: 0.8;
-
-    &.-active {
-      filter: blur(30px);
-    }
-  }
-
   &-progress {
-    background-color: $white;
     @include size(100%, 5px);
+    background-color: $white;
     border-radius: 5px;
     position: relative;
     z-index: 2;
 
     > .slide {
+      @include position(absolute, 0px, null, null, 0px);
       display: block;
       height: 100%;
-      @include position(absolute, 0px, null, null, 0px);
       border-radius: 5px;
       background-color: $color-primary;
+      transition: width 0.3s linear;
     }
   }
 }

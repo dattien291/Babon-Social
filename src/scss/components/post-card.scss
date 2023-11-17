@@ -227,9 +227,21 @@
     > .item:nth-child(5) {
       grid-column-start: 5;
       grid-column-end: 7;
+      position: relative;
 
       @include size(100%, auto);
       aspect-ratio: 1/1;
+
+      &::after {
+        content: "+5";
+        @include flex-center;
+        color: $white;
+        font-size: 40px;
+        position: absolute;
+        inset: 0;
+        background-color: rgba($black, 0.6);
+        pointer-events: none;
+      }
     }
   }
 

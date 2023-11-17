@@ -1,4 +1,9 @@
-import { floor, random } from "lodash";
+import { floor, random, noop } from "lodash";
+
+export const isServer = () => typeof window === "undefined";
+
+export const $ = !isServer() ? document.querySelector.bind(document) : noop;
+export const $$ = !isServer() ? document.querySelectorAll.bind(document) : noop;
 
 export const defaultImages = {
   ERROR: "/images/error.png",

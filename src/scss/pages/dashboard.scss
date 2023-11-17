@@ -304,8 +304,19 @@
 }
 
 .ks-dashboard-story-item > .information > .avatar {
+  @include square(40px);
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+}
+
+.ks-dashboard-story-item > .information > .avatar > .image {
   @include circle(40px);
+  border-radius: 50%;
   border: 3px solid rgb(0, 144, 227);
+}
+
+.ks-dashboard-story-item > .information > .name {
+  height: 24px;
 }
 
 .ks-stories-modal {
@@ -324,6 +335,10 @@
 .ks-story-slides {
   @include square(100%);
   user-select: none;
+
+  .swiper-slide-active {
+    z-index: 1;
+  }
 }
 
 .ks-story-slide {
