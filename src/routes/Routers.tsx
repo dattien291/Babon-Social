@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
-import { loadUser } from "../store/auth/authSlice";
+import { loadUserInfo } from "../store/auth/authSlice";
 import { useAppDispatch } from "@/store/hooks";
 
 const Routers = () => {
@@ -26,7 +26,7 @@ const Routers = () => {
 
     if (dataUsers) {
       const data: any = JSON.parse(dataUsers);
-      dispatch(loadUser(data.userInfo));
+      dispatch(loadUserInfo(data.userInfo));
     }
 
     setIsLoading(false);

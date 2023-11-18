@@ -1,16 +1,16 @@
 import { Avatar, KaImage } from "@/components/primitive";
+import { ThemeContext } from "@/contexts/Theme";
+import { selectUserInfo } from "@/store/auth/selectors";
+import { useAppSelector } from "@/store/hooks";
 import { Modal } from "@mui/material";
 import classNames from "classnames";
+import { format, isValid, parseISO } from "date-fns";
 import { isEmpty, isEqual, map, size } from "lodash";
 import { FC, useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { GroupInput } from "../GroupInput";
-import { selectUserInfo } from "@/store/auth/selectors";
-import { useAppSelector } from "@/store/hooks";
-import { useNavigate } from "react-router-dom";
-import { format, isValid, parseISO } from "date-fns";
-import { ThemeContext } from "@/contexts/Theme";
 
 interface IPostModal {
   open: boolean;
@@ -28,11 +28,11 @@ export const PostModal: FC<IPostModal> = ({ open, onClose, dataPostModal }) => {
   useEffect(() => {
     if (!open) return;
 
-    if (dataPostModal?.active === 0) setHiddenButtonNavigation("left");
-    else if (size(dataPostModal?.post) === 1) setHiddenButtonNavigation("all");
+    if (isEqual(size(dataPostModal?.post?.image), 1)) setHiddenButtonNavigation("all");
+    else if (isEqual(dataPostModal?.active, 0)) setHiddenButtonNavigation("left");
   }, [open]);
 
-  const handleToggleButtonNavigation = (event: any) => {
+  const handleSlideChange = (event: any) => {
     if (event?.isBeginning) setHiddenButtonNavigation("left");
     else if (event?.isEnd) setHiddenButtonNavigation("right");
     else setHiddenButtonNavigation(null);
@@ -57,7 +57,7 @@ export const PostModal: FC<IPostModal> = ({ open, onClose, dataPostModal }) => {
                 nextEl: ".ks-post-modal > .box > .content > .left > .action.-right",
                 prevEl: ".ks-post-modal > .box > .content > .left > .action.-left",
               }}
-              onSlideChange={handleToggleButtonNavigation}
+              onSlideChange={handleSlideChange}
               ref={swiperRef}
             >
               {!isEmpty(dataPostModal?.post?.image) &&
@@ -71,11 +71,19 @@ export const PostModal: FC<IPostModal> = ({ open, onClose, dataPostModal }) => {
                 ))}
             </Swiper>
 
-            <button className={classNames("action -left", { "-hidden": isEqual(hiddenButtonNavigation, "left") })}>
+            <button
+              className={classNames("action -left", {
+                "-hidden": isEqual(hiddenButtonNavigation, "left") || isEqual(hiddenButtonNavigation, "all"),
+              })}
+            >
               <i className="fa-solid fa-chevron-left"></i>
             </button>
 
-            <button className={classNames("action -right", { "-hidden": isEqual(hiddenButtonNavigation, "right") })}>
+            <button
+              className={classNames("action -right", {
+                "-hidden": isEqual(hiddenButtonNavigation, "right") || isEqual(hiddenButtonNavigation, "all"),
+              })}
+            >
               <i className="fa-solid fa-chevron-right"></i>
             </button>
           </div>

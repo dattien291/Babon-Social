@@ -1,30 +1,25 @@
-import { useState, useEffect, useRef, useContext, FC } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import getRoundedCanvas from "@/utils/Cropper";
-import { ThemeContext } from "@/contexts/Theme";
-import { flatMap, flatMapDepth, get, isEmpty, isEqual, map, size, slice } from "lodash";
-import { Avatar, Button } from "@/components/primitive";
-import classNames from "classnames";
 import { CreatePost, PostList } from "@/components/compound";
-import CoverPicture from "./CoverPicture";
-import { useAppDispatch } from "@/store/hooks";
-import { usePostsInfiniteQuery, usePostsQuery } from "@/features/posts";
-import { useInView } from "react-intersection-observer";
+import { Avatar, Button, KaLink } from "@/components/primitive";
+import { ThemeContext } from "@/contexts/Theme";
+import { usePostsInfiniteQuery } from "@/features/posts";
 import { useUsersQuery } from "@/features/users";
 import KsLayout from "@/layout";
+import { useAppDispatch } from "@/store/hooks";
+import classNames from "classnames";
+import { flatMap, get, isEmpty, isEqual, map, size } from "lodash";
+import { FC, useContext, useEffect, useRef, useState } from "react";
+import { useInView } from "react-intersection-observer";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import CoverPicture from "./CoverPicture";
 
 const Profile: FC = () => {
   const dispatch = useAppDispatch();
   const query = useParams();
-  const { theme } = useContext(ThemeContext);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const refImageEdit = useRef<HTMLImageElement>(null);
 
   const { ref: seeMoreRef, inView } = useInView();
-
-  let cropper: any = null;
   const [tab, setTab] = useState<string>("profile");
+  const { theme } = useContext(ThemeContext);
   const userInfo = useSelector((state: any) => state?.auth?.userInfo);
 
   const slug = String(query?.slug || "");
@@ -36,45 +31,27 @@ const Profile: FC = () => {
     if (inView && !isLoadingPosts) fetchNextPage();
   }, [inView]);
 
-  // useEffect(() => {
-  //   if (!previewInModal) return;
-
-  //   if (refImageEdit.current) {
-  //     cropper = new Cropper(refImageEdit.current, {
-  //       aspectRatio: 1 / 1,
-  //       autoCropArea: 1,
-  //       viewMode: 1,
-  //     });
-  //   }
-  // }, [previewInModal]);
-
-  // const handleOnChangeUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = event.target.files ? event.target.files[0] : null;
-  //   file && setPreviewInModal(URL.createObjectURL(file));
-  // };
-
-  // const handleSubmitInfo = async () => {
-  //   if (previewInModal) {
-  //     const croppedCanvas = cropper?.getCroppedCanvas();
-  //     const roundedCanvas = getRoundedCanvas(croppedCanvas).toDataURL();
-  //     await updateAvatar(stateUserProfile.id, roundedCanvas); //update in DB
-  //     setStateUserProfile({ ...stateUserProfile, avatar: roundedCanvas }); //update in state local
-
-  //     dispatch(updateInfo({ avatar: roundedCanvas })); // update User Redux is logging
-  //   }
-  //   setIsModalOpen(false);
-  // };
-
   return (
     <KsLayout>
       <section>
-        <div className="ks-profile">
+        <div className={classNames("ks-profile", { "-dark": theme })}>
           <div className="cover">
-            {!isLoadingUsers && <CoverPicture src={!isEmpty(users) && get(users, "[0].coverPicture", "/coverimageprofile.jpg")} />}
+            <KaLink to="/" className="action" color="white">
+              <i className="fa-solid fa-chevron-left" />
+            </KaLink>
+            {!isLoadingUsers && (
+              <CoverPicture
+                src={
+                  !isEmpty(users) && !isEqual(get(users, "[0].username", ""), userInfo?.username)
+                    ? get(users, "[0].coverPicture", "/coverimageprofile.jpg")
+                    : get(userInfo, "coverPicture", "/coverimageprofile.jpg")
+                }
+              />
+            )}
           </div>
 
           <div className="ks-container wrapper">
-            <div className="header">
+            <div className="header heading">
               <div className="group">
                 <div className="image">
                   {!isLoadingUsers && (
@@ -142,7 +119,11 @@ const Profile: FC = () => {
                 </div>
               </div>
 
-              <div className="right">Right</div>
+              <div className="right">
+                <div className={classNames("suggestion", { "-dark": theme })}>
+                  <h4 className="heading">Suggestion 💖💖</h4>
+                </div>
+              </div>
             </div>
           </div>
         </div>

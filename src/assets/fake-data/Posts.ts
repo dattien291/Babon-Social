@@ -1,7 +1,7 @@
 import { isEqual } from "lodash";
-import { joinUser } from "@/utils/index";
 import USERS from "../fake-data/User";
 import { v4 as uuid } from "uuid";
+import { joinUser } from "@/helpers";
 
 const postDefault: any = [
   {

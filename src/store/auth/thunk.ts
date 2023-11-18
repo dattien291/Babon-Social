@@ -2,7 +2,7 @@ import { authServices } from "@/assets/fake-data/User";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import to from "await-to-js";
 import { isEmpty } from "lodash";
-import { loadUser } from "./authSlice";
+import { loadUserInfo } from "./authSlice";
 
 export const loginThunk: any = createAsyncThunk(
   "auth/login",
@@ -13,7 +13,7 @@ export const loginThunk: any = createAsyncThunk(
       return rejectWithValue(err);
     }
 
-    dispatch(loadUser(response?.data));
+    dispatch(loadUserInfo(response?.data));
 
     // await dispatch(getTokenThunk({ getMe: true }));
   }
