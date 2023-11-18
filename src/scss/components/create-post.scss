@@ -34,12 +34,86 @@
 
   &-modal {
     @include flex-center;
+    position: relative;
+
+    &.-dark {
+      > .box {
+        background-color: $bg-dark-700;
+        color: $color-light-gray;
+        border: 1px solid $color-gray-600;
+      }
+    }
 
     > .box {
-      @include square(fit-content);
+      @include flex-column;
+      @include size(520px, auto);
       border-radius: $border-radius;
       background: $white;
+      color: $color-gray-700;
       padding: 20px;
+      position: relative;
+      max-height: 90%;
+      overflow-y: auto;
+    }
+
+    > .box > .close {
+      @include position(absolute, 10px, 10px, null, null);
+      cursor: pointer;
+      font-size: 24px;
+    }
+
+    > .box > .heading {
+      font-size: 20px;
+      text-align: center;
+      border-bottom: 1px solid $color-gray;
+      padding-bottom: 20px;
+    }
+
+    > .box > .information {
+      @include flex-center-ver;
+      margin: 15px 0;
+      gap: 10px;
+    }
+
+    > .box > .information > .avatar {
+      @include square(50px);
+      aspect-ratio: 1/1;
+    }
+
+    > .box > .information > .name {
+      font-weight: $fw-semibold;
+    }
+
+    > .box > .metadata {
+      @include flex-center-ver;
+      justify-content: space-between;
+      border: 1px solid $color-gray;
+      border-radius: 8px;
+      padding: 10px;
+      font-weight: $fw-bold;
+    }
+
+    > .box > .metadata > .icon {
+      font-size: 18px;
+      color: green;
+      cursor: pointer;
+    }
+
+    > .box > .group > .button {
+      display: block;
+      border-radius: 8px;
+      font-size: 16px;
+      margin: 16px 0;
+    }
+
+    > .box > .list {
+      @include flex-column;
+      gap: 6px;
+    }
+
+    > .box > .list > .item > .image {
+      @include size(100%, auto);
+      aspect-ratio: 16/9;
     }
   }
 }

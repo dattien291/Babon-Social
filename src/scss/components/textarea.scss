@@ -2,15 +2,27 @@
   position: relative;
   width: 100%;
 
+  &.-dark {
+    > .textarea {
+      color: $color-light-gray;
+    }
+
+    > .textarea::placeholder {
+      color: $color-light-gray;
+    }
+  }
+
   > .textarea {
     @include flex-center;
     width: 100%;
     padding: 12px 15px;
-    border: 1px solid $border-color;
     line-height: 1.2;
-    min-height: 150px;
+    height: 120px;
     resize: vertical;
     border-radius: 4px;
+    background-color: transparent;
+    resize: none;
+    border: none;
 
     &::placeholder {
       color: $color-gray-700;

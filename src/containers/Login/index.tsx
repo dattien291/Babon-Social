@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, MouseEvent, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loadUser } from "@/store/auth/authSlice";
+import { loadUserInfo } from "@/store/auth/authSlice";
 import { Button, KaImage } from "@/components/primitive";
 import { GroupInput } from "@/components/compound";
 import { useFormik } from "formik";

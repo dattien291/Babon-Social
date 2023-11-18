@@ -1,4 +1,4 @@
-import { joinUser } from "@/utils/index";
+import { joinUser } from "@/helpers";
 import USERS from "./User";
 import { v4 as uuid } from "uuid";
 

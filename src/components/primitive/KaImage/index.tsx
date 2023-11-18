@@ -26,7 +26,7 @@ export function KaImage({ src, hideOnError, defaultImage, className, loadingSize
     let isMounted = true;
     setIsLoading(true);
 
-    if (!imagePathRegex.test(src) || isEmpty(src)) {
+    if (isEmpty(src)) {
       if (isMounted) {
         setIsError(true);
         setIsLoading(false);

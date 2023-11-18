@@ -1,15 +1,60 @@
 .ks-profile {
+  color: $color-gray-700;
+
+  &.-dark {
+    color: $color-light-gray;
+
+    > .wrapper > .tabs > .button {
+      color: $color-pink;
+    }
+
+    > .wrapper > .header > .group > .information > .quantity {
+      color: $color-light-gray;
+    }
+
+    > .wrapper > .tabs {
+      background-color: $bg-dark-700;
+    }
+  }
+
   > .wrapper {
     position: relative;
   }
 
   > .cover {
-    @include size(100%, 350px);
+    @include size(100%, 450px);
     padding: 0 10px;
     margin: 0 auto;
+    position: relative;
+
+    @include breakpoint-down(tablet) {
+      @include size(100%, 350px);
+    }
 
     @include breakpoint-down(smallphone) {
       @include size(100%, 250px);
+    }
+  }
+
+  > .cover > a {
+    @include position(absolute, 10px, null, null, 20px);
+    color: $white;
+    font-size: 50px;
+    z-index: 3;
+    transition: opacity 0.1s linear;
+
+    @include breakpoint-down(smallphone) {
+      font-size: 40px;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  > .wrapper > .header {
+    @include breakpoint-up(phone) {
+      height: 165px;
     }
   }
 
@@ -17,12 +62,22 @@
     display: flex;
     align-items: flex-end;
     gap: 10px;
+
+    @include breakpoint-down(phone) {
+      @include flex-column;
+      align-items: center;
+    }
   }
 
   > .wrapper > .header > .group > .image {
     @include square(175px);
     aspect-ratio: 1/1;
     user-select: none;
+    transform: translateY(-30px);
+
+    @include breakpoint-down(phone) {
+      @include square(150px);
+    }
   }
 
   > .wrapper > .header > .group > .image > .avatar {
@@ -32,12 +87,17 @@
   > .wrapper > .header > .group > .information {
     @include flex-column;
     gap: 6px;
+    transform: translateY(-30px);
+
+    @include breakpoint-down(phone) {
+      @include flex-center-ver;
+    }
   }
 
   > .wrapper > .header > .group > .information > .name {
     color: $color-primary;
     font-size: 35px;
-    font-weight: $fw-semibold;
+    font-weight: $fw-bold;
   }
 
   > .wrapper > .header > .group > .information > .quantity {
@@ -47,17 +107,17 @@
 
   > .wrapper > .tabs {
     @include flex-center-ver;
-    margin-top: 20px;
+    background-color: $white;
     margin-bottom: 20px;
     border-top: 1px solid rgba($color-gray-600, 0.4);
-    box-shadow: 5px 5px 5px rgba($black, 0.05);
+    box-shadow: 0px 0px 5px rgba($black, 0.1);
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
   }
 
   > .wrapper > .tabs > .button {
     border-radius: 8px;
-    color: $color-gray-700;
+    color: inherit;
     font-size: 16px;
     width: 100px;
     background-color: transparent;
@@ -67,7 +127,6 @@
     }
 
     &:hover {
-      color: $color-gray-700;
       background-color: transparent;
       opacity: 0.8;
     }
@@ -84,9 +143,23 @@
       @include size(145px, 40px);
       z-index: 2;
       color: $white;
-      background-color: rgba($black, 0.5);
+      background-color: rgba($black, 0.4);
       border-radius: 8px;
       pointer-events: none;
+    }
+
+    > .group {
+      @include position(absolute, null, 10px, 10px, null);
+      @include flex-center-ver;
+      gap: 6px;
+      z-index: 2;
+    }
+
+    > .group > .button {
+      color: $white;
+      @include size(90px, 40px);
+      background-color: rgba($black, 0.8);
+      border-radius: 8px;
     }
 
     > .edit {
@@ -117,10 +190,6 @@
       @include square(40px);
       aspect-ratio: 1/1;
     }
-
-    > .item > .avatar {
-      box-shadow: 0px 0px 15px rgba($black, 0.3);
-    }
   }
 
   &-content {
@@ -141,6 +210,30 @@
       @include breakpoint-down(tablet) {
         display: none;
       }
+    }
+
+    > .right > .suggestion {
+      background-color: $white;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: $shadow-primary;
+      border-radius: $border-radius;
+      border-bottom: 1px solid $color-gray;
+
+      &.-dark {
+        background-color: $bg-dark-700;
+        color: $color-light-gray;
+      }
+
+      &.-dark > .heading {
+        color: $color-pink;
+      }
+    }
+
+    > .right > .suggestion > .heading {
+      color: $color-gray-600;
+      margin-bottom: 10px;
+      font-size: $fs-x-large;
     }
   }
 }

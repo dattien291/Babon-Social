@@ -4,15 +4,15 @@ import { v4 as uuid } from "uuid";
 let USERS: any = [
   {
     id: uuid(),
-    name: "Hieu",
+    name: "Minh Hieu",
     username: "hieu123",
     password: "123456",
     avatar: "https://i.pinimg.com/564x/cb/7e/c1/cb7ec19b434a10a0c8d5641fec0f00a1.jpg",
     bio: "Hi I'm Hieu",
     friends: [
-      { username: "emily", avatar: "/avataremmy.jpg" },
-      { username: "sirikakire", avatar: "/shirikane.jpg" },
-      { username: "anhduy", avatar: "/avataranhduy.jpg" },
+      { username: "emily", avatar: "https://i.pinimg.com/736x/49/bf/fe/49bffe149353fc16e64426463ff2d855.jpg" },
+      { username: "sirikakire", avatar: "https://i.pinimg.com/564x/da/9a/46/da9a4641ec05835561fb0486729270af.jpg" },
+      { username: "anhduy", avatar: "https://i.pinimg.com/736x/08/78/0c/08780c623015ec01d5fe0364aabfff16.jpg" },
     ],
   },
   {
@@ -24,9 +24,9 @@ let USERS: any = [
     bio: "💚 Hi, I'm HoaEmi 💚",
     coverPicture: "https://i.pinimg.com/564x/e8/2d/c7/e82dc7c82cc5dec0145a2fa8cf21eff4.jpg",
     friends: [
-      { username: "emily", avatar: "/avataremmy.jpg" },
-      { username: "hieu123", avatar: "/avatarhieu123.jpg" },
-      { username: "anhduy", avatar: "/avataranhduy.jpg" },
+      { username: "emily", avatar: "https://i.pinimg.com/736x/49/bf/fe/49bffe149353fc16e64426463ff2d855.jpg" },
+      { username: "hieu123", avatar: "https://i.pinimg.com/564x/cb/7e/c1/cb7ec19b434a10a0c8d5641fec0f00a1.jpg" },
+      { username: "anhduy", avatar: "https://i.pinimg.com/736x/08/78/0c/08780c623015ec01d5fe0364aabfff16.jpg" },
     ],
   },
   {
