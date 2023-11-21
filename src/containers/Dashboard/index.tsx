@@ -4,13 +4,13 @@ import { ThemeContext } from "@/contexts/Theme";
 import { usePostsInfiniteQuery, usePostsQuery } from "@/features/posts";
 import KsLayout from "@/layout";
 import classNames from "classnames";
-import { flatMap, get, isEmpty } from "lodash";
-import { FC, useContext, useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
+import { flatMap, get, last, map, size } from "lodash";
+import { FC, useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import Switch from "./KaSwitch";
 import Sidebar from "./Sidebar";
 import Stories from "./Stories";
+import { useSuggestQuery } from "@/features/suggest";
 
 const DashBoard: FC = () => {
   const userInfo = useSelector((state: any) => state?.auth?.userInfo);
@@ -20,12 +20,7 @@ const DashBoard: FC = () => {
 
   const { data: posts, fetchNextPage, isFetching: isLoadingPosts } = usePostsInfiniteQuery();
   const { data: trendingPost, isFetching: isLoadingTrendingPost } = usePostsQuery({ limit: 1, page: 2 });
-
-  const { ref: seeMoreRef, inView } = useInView();
-
-  useEffect(() => {
-    if (inView && !isLoadingPosts) fetchNextPage();
-  }, [inView]);
+  const { data: suggestList, isFetching: isLoadingSuggest } = useSuggestQuery({ limit: 1, page: 1 });
 
   const handleOpenModal =
     ({ active, post }: any) =>
@@ -35,6 +30,11 @@ const DashBoard: FC = () => {
     };
 
   const handleCloseModal = () => setIsOpenModal(false);
+
+  const handleNextPage = () => {
+    if (isLoadingPosts) return;
+    fetchNextPage();
+  };
 
   return (
     <KsLayout>
@@ -52,22 +52,11 @@ const DashBoard: FC = () => {
 
           <CreatePost />
 
-          <PostList posts={flatMap(posts?.pages, (item) => item?.data) || []} />
-
-          <div className="ks-posts" ref={seeMoreRef}>
-            <div className={classNames("ks-post-card", { "-dark": theme })}>
-              <div className="header">
-                <div className="information">
-                  <div className="avatar -skeleton" />
-                  <div className="group">
-                    <span className="name" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="body -skeleton" />
-            </div>
-          </div>
+          <PostList
+            posts={flatMap(posts?.pages, (item) => item?.data?.items) || []}
+            onNextPage={handleNextPage}
+            hasNextPage={last(posts?.pageParams) !== false}
+          />
         </div>
 
         <div className={classNames("trending", { "-dark": theme })}>
@@ -94,44 +83,50 @@ const DashBoard: FC = () => {
 
               <div
                 className={classNames("thumbnail", { "-skeleton": isLoadingTrendingPost })}
-                onClick={handleOpenModal({ active: 0, post: get(trendingPost, "[0]", {}) })}
+                onClick={handleOpenModal({ active: 0, post: get(trendingPost?.items, "[0]", {}) })}
               >
                 {!isLoadingTrendingPost && (
-                  <KaImage
-                    src={!isEmpty(trendingPost) && get(trendingPost, "[0].image[0]", "")}
-                    alt="trending"
-                    objectFit="cover"
-                    className="image"
-                  />
+                  <KaImage src={get(trendingPost?.items, "[0].image[0]", "")} alt="trending" objectFit="cover" className="image" />
                 )}
               </div>
 
               <div className="information">
-                <KaLink
-                  to={`/profile/${!isEmpty(trendingPost) && get(trendingPost, "[0].username", "")}`}
-                  className="link"
-                  color="primary"
-                  hasUnderline
-                >
+                <KaLink to={`/profile/${get(trendingPost?.items, "[0].username", "")}`} className="link" color="primary" hasUnderline>
                   <div className={classNames("avatar", { "-skeleton": isLoadingTrendingPost })}>
                     {!isLoadingTrendingPost && (
-                      <Avatar src={!isEmpty(trendingPost) && get(trendingPost, "[0].author.avatar", "")} objectFit="cover" size="md" />
+                      <Avatar src={get(trendingPost?.items, "[0].author.avatar", "")} objectFit="cover" size="md" />
                     )}
                   </div>
 
                   <div className="info">
-                    <span className="name">{!isEmpty(trendingPost) && get(trendingPost, "[0].author.name", "")}</span>
+                    <span className="name">{get(trendingPost?.items, "[0].author.name", "")}</span>
                   </div>
                 </KaLink>
               </div>
 
               <p className={classNames("text paragraph", { "-skeleton": isLoadingTrendingPost })}>
-                {!isEmpty(trendingPost) && !isLoadingTrendingPost && get(trendingPost, "[0].text", "")}
+                {get(trendingPost?.items, "[0].text", "")}
               </p>
             </div>
 
             <div className="suggestion">
               <h4 className="heading">Suggestion 💖💖</h4>
+
+              <ul className="list">
+                {map(suggestList?.items, (item, index) => (
+                  <li className="item" key={index}>
+                    <KaLink to={`/profile/${item?.username}`} className="link" color="primary" hasUnderline>
+                      <div className={classNames("avatar", { "-skeleton": isLoadingSuggest })}>
+                        {!isLoadingSuggest && <Avatar src={item?.avatar || ""} objectFit="cover" size="md" />}
+                      </div>
+
+                      <div className="info">
+                        <span className="name">{item?.name}</span>
+                      </div>
+                    </KaLink>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>

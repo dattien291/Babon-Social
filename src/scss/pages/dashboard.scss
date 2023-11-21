@@ -240,6 +240,21 @@
     margin-bottom: 10px;
     font-size: $fs-x-large;
   }
+
+  > .trending > .sticky > .suggestion > .list {
+    @include flex-column;
+    gap: 10px;
+  }
+
+  > .trending > .sticky > .suggestion > .list > .item > a > .link > .text {
+    @include flex-center-ver;
+    gap: 6px;
+  }
+
+  > .trending > .sticky > .suggestion > .list > .item > a > .link > .text > .avatar {
+    @include circle(50px);
+    aspect-ratio: 1/1;
+  }
 }
 
 .ks-dashboard-story-list {

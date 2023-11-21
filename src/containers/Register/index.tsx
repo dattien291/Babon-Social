@@ -19,12 +19,8 @@ const Register = () => {
     },
 
     onSubmit: (v) => {
-      // register(v).then((response: any) => {
-      //   if (response?.message === "success") {
-      //     toast.success("Successful account registration !");
-      //     navigate("/login");
-      //   }
-      // });
+      toast.success("Successful account registration !");
+      navigate("/login");
       resetForm();
     },
   });
@@ -83,7 +79,7 @@ const Register = () => {
           error={errors.password}
         />
 
-        <Button fullWidth className="button" type="submit" variant="contained">
+        <Button fullWidth className="button" type="submit" variant="contained" color="light-green">
           Register
         </Button>
 

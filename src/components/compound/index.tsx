@@ -3,3 +3,4 @@ export * from "./PostList";
 export * from "./CreatePost";
 export * from "./GroupInput";
 export * from "./PostModal";
+export * from "./GroupTextarea";
