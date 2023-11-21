@@ -9,7 +9,6 @@ export const authSlice = createSlice({
     loadUserInfo: (state, action: PayloadAction<any>) => {
       state.isAuthenticated = true;
       state.userInfo = action.payload;
-      localStorage.setItem("User", JSON.stringify(state));
     },
 
     updateUserInfo: (state, action: PayloadAction<any>) => {

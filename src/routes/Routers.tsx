@@ -5,8 +5,10 @@ import { useSelector } from "react-redux";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
-import { loadUserInfo } from "../store/auth/authSlice";
 import { useAppDispatch } from "@/store/hooks";
+import { getMeThunk } from "@/store/auth/thunk";
+import { setToken } from "@/request";
+import { thunkWrapper } from "@/helpers";
 
 const Routers = () => {
   const dispatch = useAppDispatch();
@@ -15,21 +17,31 @@ const Routers = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
     return () => {
       document?.pictureInPictureElement && document?.exitPictureInPicture();
     };
   }, [pathname]);
 
   useEffect(() => {
-    const dataUsers = localStorage.getItem("User");
-
-    if (dataUsers) {
-      const data: any = JSON.parse(dataUsers);
-      dispatch(loadUserInfo(data.userInfo));
+    const token = localStorage.getItem("Token");
+    if (!token) {
+      setIsLoading(false);
+      return;
     }
 
-    setIsLoading(false);
+    const getMe = async () => {
+      setToken(token);
+      await thunkWrapper({
+        promise: dispatch(getMeThunk()),
+        thunkAction: getMeThunk,
+        onSuccess: () => setIsLoading(false),
+        onError: () => setIsLoading(false),
+      });
+    };
+
+    getMe();
   }, [dispatch]);
 
   if (isLoading) return <div></div>;

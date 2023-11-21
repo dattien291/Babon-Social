@@ -17,16 +17,7 @@ export interface IAvatarProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, 
 const imagePathRegex = /\.(jpg|jpeg|png|gif|bmp|svg)$/i;
 const urlRegex = /^(https?:\/\/)?([\da-z\\.-]+)\.([a-z\\.]{2,6})([\\/\w \\.-]*)*\/?$/;
 
-export function Avatar({
-  src,
-  hideOnError,
-  defaultImage,
-  size,
-  className,
-  loadingSize = "md",
-  objectFit,
-  ...props
-}: IAvatarProps) {
+export function Avatar({ src, hideOnError, defaultImage, size, className, loadingSize = "md", objectFit, ...props }: IAvatarProps) {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -36,7 +27,7 @@ export function Avatar({
     let isMounted = true;
     setIsLoading(true);
 
-    if (!imagePathRegex.test(src) || isEmpty(src)) {
+    if (isEmpty(src)) {
       if (isMounted) {
         setIsError(true);
         setIsLoading(false);

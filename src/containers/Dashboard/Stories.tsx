@@ -1,30 +1,19 @@
 import { KaImage } from "@/components/primitive";
+import { useStoriesQuery } from "@/features/stories";
 import { breakpoints } from "@/utils/constants";
 import classNames from "classnames";
 import { isEqual, map, times } from "lodash";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import StoriesModal from "./StoriesModal";
-import { storyServices } from "@/assets/fake-data/Stories";
 
 const Stories: FC = () => {
-  const [stories, setStories] = useState<any>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [storySelected, setStorySelected] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState(true);
   const [hiddenButtonNavigation, setHiddenButtonNavigation] = useState<"left" | "right" | null>("left");
 
-  useEffect(() => {
-    const fetchStories = async () => {
-      setIsLoading(true);
-      const res = await storyServices.getStories({ page: 1, limit: 1 });
-      if (res) setStories(res);
-      setIsLoading(false);
-    };
-
-    fetchStories();
-  }, []);
+  const { data: stories, isFetching: isLoadingStories, isError } = useStoriesQuery();
 
   const handleCloseModal = () => setOpenModal(false);
 
@@ -41,7 +30,7 @@ const Stories: FC = () => {
 
   return (
     <div className="ks-dashboard-story-list">
-      <StoriesModal open={openModal} onClose={handleCloseModal} active={storySelected} dataStories={stories} />
+      <StoriesModal open={openModal} onClose={handleCloseModal} active={storySelected} dataStories={stories?.items || []} />
 
       <Swiper
         slidesPerView={"auto"}
@@ -68,8 +57,8 @@ const Stories: FC = () => {
           },
         }}
       >
-        {!isLoading
-          ? map(stories, (item, index) => (
+        {!isLoadingStories && !isError
+          ? map(stories?.items, (item, index) => (
               <SwiperSlide key={index} className="slide" style={{ width: "130px" }}>
                 <div className="ks-dashboard-story-item" onClick={handleOpenModal(Number(index) || 0)}>
                   <div className="information">

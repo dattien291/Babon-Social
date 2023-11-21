@@ -2,7 +2,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import classNames from "classnames";
 import { ButtonHTMLAttributes, DetailedHTMLProps, FC, ReactNode } from "react";
 
-type ButtonColorType = "primary" | "dark" | "light" | "primary-light";
+type ButtonColorType = "primary" | "dark" | "light" | "primary-light" | "secondary" | "light-green";
 
 interface IButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   color?: ButtonColorType;

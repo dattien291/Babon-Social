@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { ThemeContext } from "@/contexts/Theme";
-import { addNewPost } from "@/assets/fake-data/Posts";
 import { fabric } from "fabric";
 import { Avatar } from "@/components/primitive";
 import CreatePostModal from "./CreatePostModal";

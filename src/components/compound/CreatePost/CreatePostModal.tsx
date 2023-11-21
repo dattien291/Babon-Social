@@ -1,15 +1,14 @@
+import { GroupTextarea } from "@/components/compound";
 import { Avatar, Button, KaImage } from "@/components/primitive";
 import { ThemeContext } from "@/contexts/Theme";
-import { Modal } from "@mui/material";
-import classNames from "classnames";
-import { FC, useContext } from "react";
 import { selectUserInfo } from "@/store/auth/selectors";
 import { useAppSelector } from "@/store/hooks";
-import { GroupTextarea } from "../GroupTextarea";
-import { GroupInput } from "../GroupInput";
+import { Modal } from "@mui/material";
+import classNames from "classnames";
 import { useFormik } from "formik";
 import { get, map } from "lodash";
-import { Cropper } from "react-cropper";
+import { FC, useContext } from "react";
+import { GroupInput } from "../GroupInput";
 
 interface ICreatePostModal {
   open: boolean;
@@ -28,7 +27,6 @@ const CreatePostModal: FC<ICreatePostModal> = ({ open, onClose }) => {
 
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(false);
-      console.log(values);
       resetForm();
     },
   });
@@ -86,7 +84,7 @@ const CreatePostModal: FC<ICreatePostModal> = ({ open, onClose }) => {
         <ul className="list">
           {map(values.files, (file, index) => (
             <li className="item" key={index}>
-              <img src={file} className="image" />
+              <KaImage src={file || ""} className="image" objectFit="cover" />
             </li>
           ))}
         </ul>

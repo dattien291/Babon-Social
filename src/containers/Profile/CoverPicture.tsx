@@ -1,13 +1,13 @@
 import { GroupInput } from "@/components/compound";
 import { KaImage } from "@/components/primitive/KaImage/index";
+import { updateUserInfo } from "@/store/auth/authSlice";
+import { useAppDispatch } from "@/store/hooks";
 import { $ } from "@/utils/constants";
 import Cropper from "cropperjs";
 import { get, isEqual } from "lodash";
-import { FC, Fragment, useEffect, useRef, useState } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { updateUserInfo } from "@/store/auth/authSlice";
-import { useAppDispatch } from "@/store/hooks";
 
 interface ICoverPictureProps {
   src: string;
@@ -28,10 +28,9 @@ const CoverPicture: FC<ICoverPictureProps> = ({ src }) => {
 
   useEffect(() => {
     const newCoverPictureElement: any = $("#new-cover-picture");
-    if (!newCoverPictureElement) return;
+    if (!newCoverPictureElement || !edit?.imageUrl) return;
 
     const cropperFrame = new Cropper(newCoverPictureElement, editCoverPictureSettings);
-
     setCropper(cropperFrame);
 
     return () => {
@@ -78,14 +77,14 @@ const CoverPicture: FC<ICoverPictureProps> = ({ src }) => {
       )}
 
       {isEqual(slug, userInfo?.username) && (
-        <label htmlFor="upload" className="edit">
+        <label htmlFor="upload-cover-picture" className="edit">
           Upload cover photo
         </label>
       )}
-      <GroupInput type="file" onChange={handleChange} id="upload" hidden accept="image/png, image/jpeg" />
+      <GroupInput type="file" onChange={handleChange} id="upload-cover-picture" hidden accept="image/png, image/jpeg" />
 
       {!edit?.isEditing && <KaImage src={src} objectFit="cover" className="image" draggable="false" />}
-      {edit?.isEditing && <img src={edit?.imageUrl || ""} className="preview" id="new-cover-picture" />}
+      <img src={edit?.imageUrl || ""} className="preview" id="new-cover-picture" />
     </div>
   );
 };

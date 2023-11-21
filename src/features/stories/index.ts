@@ -1,6 +1,7 @@
-import { postServices } from "@/assets/fake-data/Posts";
+import storyServices from "@/services/storyServices";
 import { useQuery } from "@tanstack/react-query";
 import { pickBy } from "lodash";
+import { UseQueryResult } from "@tanstack/react-query";
 
 export const getStoriesQueryConfig = ({
   username = "",
@@ -18,14 +19,14 @@ export const getStoriesQueryConfig = ({
   const originalParams = pickBy(params, (val) => !!val);
 
   return {
-    queryKey: ["/posts", { ...originalParams, ...queryKey }],
-    queryFn: () => postServices.getPosts(originalParams),
+    queryKey: ["/stories", { ...originalParams, ...queryKey }],
+    queryFn: () => storyServices.getStories(originalParams),
     options: { retry: 1, ...options },
     ...rest,
   };
 };
 
-export const usePostsQuery = ({ username, limit, page, options, ...rest }: any = {}) => {
+export const useStoriesQuery = ({ username, limit, page, options, ...rest }: any = {}): UseQueryResult<any> => {
   return useQuery(
     getStoriesQueryConfig({
       username,

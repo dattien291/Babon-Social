@@ -1,6 +1,6 @@
-import { postServices } from "@/assets/fake-data/Posts";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { pickBy } from "lodash";
+import postServices from "@/services/postServices";
+import { UseQueryResult, useInfiniteQuery, useQuery, UseInfiniteQueryResult } from "@tanstack/react-query";
+import { ceil, pickBy } from "lodash";
 
 export const getPostsQueryConfig = ({ username = "", limit = undefined, page = undefined, options = {}, queryKey = {}, ...rest } = {}) => {
   const params = {
@@ -18,19 +18,19 @@ export const getPostsQueryConfig = ({ username = "", limit = undefined, page = u
   };
 };
 
-export const usePostsQuery = ({ username, limit, page, options, ...rest }: any = {}) => {
+export const usePostsQuery: any = ({ username, limit, page, options, ...rest }: any = {}): UseQueryResult<any> => {
   return useQuery(
     getPostsQueryConfig({
       username,
       limit,
-      options,
       page,
+      options,
       ...rest,
     })
   );
 };
 
-//================================*Infinite Queries*================================
+//================================Infinite Queries================================
 
 export const fetchInfinitePosts = async (context: any) => {
   const page = Number(context?.pageParam || 1);
@@ -38,11 +38,12 @@ export const fetchInfinitePosts = async (context: any) => {
 
   const username = String(params?.username || "");
 
-  const response = await postServices.getPosts({ limit: 1, page: page, username: username });
+  const response: any = await postServices.getPosts({ limit: 1, page: page, username: username });
 
   return {
     data: response,
     page: page + 1,
+    hasNextPage: page < ceil(Number(response?.total) / 1),
   };
 };
 
@@ -65,10 +66,10 @@ export const getPostsInfiniteQueryConfig = ({
     queryKey: ["/posts", { ...originalParams, ...queryKey }],
     queryFn: fetchInfinitePosts,
     options: { retry: 1, ...options },
-    getNextPageParam: (lastPage: any) => lastPage.page,
+    getNextPageParam: (lastPage: any) => (lastPage.hasNextPage ? lastPage.page : false),
     ...rest,
   };
 };
 
-export const usePostsInfiniteQuery = ({ username, page, limit, options, ...rest }: any = {}) =>
+export const usePostsInfiniteQuery = ({ username, page, limit, options, ...rest }: any = {}): UseInfiniteQueryResult<any> =>
   useInfiniteQuery(getPostsInfiniteQueryConfig({ username, page, limit, options, ...rest }));

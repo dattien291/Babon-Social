@@ -12,9 +12,11 @@ import { ThemeContext } from "@/contexts/Theme";
 
 interface IListPostsProps {
   posts: any;
+  onNextPage: () => void;
+  hasNextPage?: boolean;
 }
 
-export const PostList: FC<IListPostsProps> = ({ posts }) => {
+export const PostList: FC<IListPostsProps> = ({ posts, onNextPage, hasNextPage }) => {
   const dispatch = useAppDispatch();
   const userInfo = useSelector((state: any) => state?.auth?.userInfo);
   const navigate = useNavigate();
@@ -25,6 +27,7 @@ export const PostList: FC<IListPostsProps> = ({ posts }) => {
 
   const videoRef: any = useRef(null);
   const { ref, inView } = useInView();
+  const { ref: seeMoreRef, inView: inViewLoadMore } = useInView();
 
   useEffect(() => {
     document.pictureInPictureElement && document.exitPictureInPicture();
@@ -42,6 +45,10 @@ export const PostList: FC<IListPostsProps> = ({ posts }) => {
     };
 
   const handleCloseModal = () => setIsOpenModal(false);
+
+  useEffect(() => {
+    if (inViewLoadMore) onNextPage();
+  }, [inViewLoadMore]);
 
   return (
     <div className="ks-posts">
@@ -136,6 +143,21 @@ export const PostList: FC<IListPostsProps> = ({ posts }) => {
           </div>
         </div>
       ))}
+
+      {hasNextPage && (
+        <div className={classNames("ks-post-card", { "-dark": theme })} ref={seeMoreRef}>
+          <div className="header">
+            <div className="information">
+              <div className="avatar -skeleton" />
+              <div className="group">
+                <span className="name" />
+              </div>
+            </div>
+          </div>
+
+          <div className="body -skeleton" />
+        </div>
+      )}
     </div>
   );
 };

@@ -15,27 +15,16 @@ const Login = () => {
 
   const { setFieldValue, resetForm, handleSubmit, values, errors } = useFormik({
     initialValues: {
-      username: "hieu123",
+      username: "hieu0901",
       password: "123456",
     },
 
     onSubmit: async (values, { setSubmitting }) => {
-      // login(v).then((response) => {
-      //   if (response?.message === "success") {
-      //     dispatch(loadUser(response?.data));
-      //     toast.success("Successfully !");
-      //   }
-
-      //   if (response?.message !== "success") {
-      //     toast.error(response?.message);
-      //   }
-      // });
-
       await thunkWrapper({
         promise: dispatch(loginThunk(values)),
         thunkAction: loginThunk,
         onSuccess: () => toast.success("Login successful !"),
-        onError: () => null,
+        onError: () => toast.error("Login failed !"),
       });
 
       setSubmitting(false);
@@ -86,7 +75,7 @@ const Login = () => {
           error={errors.password}
         />
 
-        <Button fullWidth className="button" type="submit" variant="contained">
+        <Button fullWidth className="button" type="submit" variant="contained" color="light-green">
           Login
         </Button>
 

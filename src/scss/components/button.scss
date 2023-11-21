@@ -3,6 +3,7 @@ $button-variants: (
   secondary: $color-secondary,
   dark: $black,
   light: $white,
+  light-green: $color-light-green,
 );
 
 .ks-button {
@@ -12,7 +13,7 @@ $button-variants: (
   font-weight: $fw-bold;
   border-radius: 50px;
   height: 44px;
-  transition: opacity 0.2s linear !important;
+  transition: all 0.2s linear !important;
 
   @each $variant, $color in $button-variants {
     &.-contained-#{$variant} {

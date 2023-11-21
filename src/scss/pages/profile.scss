@@ -70,13 +70,13 @@
   }
 
   > .wrapper > .header > .group > .image {
-    @include square(175px);
+    @include circle(175px);
     aspect-ratio: 1/1;
     user-select: none;
     transform: translateY(-30px);
 
     @include breakpoint-down(phone) {
-      @include square(150px);
+      @include circle(150px);
     }
   }
 
@@ -179,6 +179,7 @@
 
     > .preview {
       @include square(100%);
+      display: none;
     }
   }
 
@@ -234,6 +235,89 @@
       color: $color-gray-600;
       margin-bottom: 10px;
       font-size: $fs-x-large;
+    }
+  }
+
+  &-avatar-modal {
+    @include flex-center;
+    position: relative;
+
+    &.-dark {
+      > .box {
+        background-color: $bg-dark-700;
+        color: $color-light-gray;
+        border: 1px solid $color-gray-600;
+      }
+    }
+
+    > .box {
+      @include flex-column;
+      @include size(520px, auto);
+      border-radius: $border-radius;
+      background: $white;
+      color: $color-gray-700;
+      padding: 20px;
+      position: relative;
+      max-height: 90%;
+      overflow-y: auto;
+    }
+
+    > .box > .heading {
+      font-size: 20px;
+      text-align: center;
+      border-bottom: 1px solid $color-gray;
+      padding-bottom: 20px;
+    }
+
+    > .box > .avatar {
+      @include size(100%, auto);
+      aspect-ratio: 1/1;
+      margin-top: 10px;
+      position: relative;
+    }
+
+    > .box > .avatar > .edit {
+      @include abs-center;
+      @include flex-center;
+      @include size(100px, 40px);
+      z-index: 2;
+      color: $white;
+      background-color: rgba($black, 0.5);
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    > .box > .group {
+      @include flex-center-ver;
+      justify-content: flex-end;
+      margin-top: 16px;
+      gap: 6px;
+    }
+
+    > .box > .group > .button {
+      width: 100px;
+    }
+
+    > .box > .avatar > .preview {
+      display: none;
+    }
+
+    .cropper-line {
+      display: none;
+    }
+    .cropper-view-box,
+    .cropper-face {
+      border-radius: 50%;
+    }
+    .cropper-view-box {
+      outline: 0;
+      box-shadow: 0 0 0 1px $color-primary;
+    }
+    .point-ne,
+    .point-nw,
+    .point-sw,
+    .point-se {
+      display: none;
     }
   }
 }
