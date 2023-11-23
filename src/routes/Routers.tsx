@@ -1,14 +1,14 @@
+import { thunkWrapper } from "@/helpers";
 import DashBoard from "@/pages/dashboard";
+import Login from "@/pages/login";
 import Profile from "@/pages/profile";
+import Register from "@/pages/register";
+import { setToken } from "@/request";
+import { getMeThunk } from "@/store/auth/thunk";
+import { useAppDispatch } from "@/store/hooks";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import Login from "@/pages/login";
-import Register from "@/pages/register";
-import { useAppDispatch } from "@/store/hooks";
-import { getMeThunk } from "@/store/auth/thunk";
-import { setToken } from "@/request";
-import { thunkWrapper } from "@/helpers";
 
 const Routers = () => {
   const dispatch = useAppDispatch();
