@@ -134,8 +134,8 @@
 
   > .trending > .sticky > .navigation {
     @include flex-center-ver;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 25px;
+    margin-bottom: 25px;
     height: 60px;
   }
 
@@ -244,6 +244,16 @@
   > .trending > .sticky > .suggestion > .list {
     @include flex-column;
     gap: 10px;
+  }
+
+  > .trending > .sticky > .suggestion > .list > .item {
+    height: 50px;
+
+    &.-skeleton > .avatar {
+      @include circle(50px);
+      aspect-ratio: 1/1;
+      background-color: rgba($color-gray, 0.6);
+    }
   }
 
   > .trending > .sticky > .suggestion > .list > .item > a > .link > .text {

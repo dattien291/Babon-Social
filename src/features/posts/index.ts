@@ -63,7 +63,7 @@ export const getPostsInfiniteQueryConfig = ({
   const originalParams = pickBy(params, (val) => !!val);
 
   return {
-    queryKey: ["/posts", { ...originalParams, ...queryKey }],
+    queryKey: ["/infinite-posts", { ...originalParams, ...queryKey }],
     queryFn: fetchInfinitePosts,
     options: { retry: 1, ...options },
     getNextPageParam: (lastPage: any) => (lastPage.hasNextPage ? lastPage.page : false),

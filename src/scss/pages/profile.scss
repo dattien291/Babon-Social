@@ -276,6 +276,10 @@
       position: relative;
     }
 
+    > .box > .avatar > .image {
+      aspect-ratio: 1/1;
+    }
+
     > .box > .avatar > .edit {
       @include abs-center;
       @include flex-center;

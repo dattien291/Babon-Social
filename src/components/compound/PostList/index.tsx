@@ -27,7 +27,11 @@ export const PostList: FC<IListPostsProps> = ({ posts, onNextPage, hasNextPage }
 
   const videoRef: any = useRef(null);
   const { ref, inView } = useInView();
-  const { ref: seeMoreRef, inView: inViewLoadMore } = useInView();
+  const { ref: seeMoreRef, inView: inViewLoadMore } = useInView({
+    onChange: (inView, entry) => {
+      if (inView) onNextPage();
+    },
+  });
 
   useEffect(() => {
     document.pictureInPictureElement && document.exitPictureInPicture();
@@ -45,10 +49,6 @@ export const PostList: FC<IListPostsProps> = ({ posts, onNextPage, hasNextPage }
     };
 
   const handleCloseModal = () => setIsOpenModal(false);
-
-  useEffect(() => {
-    if (inViewLoadMore) onNextPage();
-  }, [inViewLoadMore]);
 
   return (
     <div className="ks-posts">
@@ -111,12 +111,12 @@ export const PostList: FC<IListPostsProps> = ({ posts, onNextPage, hasNextPage }
                 <ul
                   className={classNames(
                     "ks-post-card-images",
-                    { "ks-post-card-images-default": size(item?.image) > 5 },
                     { "ks-post-card-images-1": size(item?.image) === 1 },
                     { "ks-post-card-images-2": size(item?.image) === 2 },
                     { "ks-post-card-images-3": size(item?.image) === 3 },
                     { "ks-post-card-images-4": size(item?.image) === 4 },
-                    { "ks-post-card-images-5": size(item?.image) === 5 }
+                    { "ks-post-card-images-5": size(item?.image) === 5 },
+                    { "ks-post-card-images-default": size(item?.image) > 5 }
                   )}
                 >
                   {map(slice(item?.image), (src: string, index: number) => (

@@ -2,15 +2,15 @@ import { CreatePost, PostList, PostModal } from "@/components/compound";
 import { Avatar, Button, KaImage, KaLink } from "@/components/primitive";
 import { ThemeContext } from "@/contexts/Theme";
 import { usePostsInfiniteQuery, usePostsQuery } from "@/features/posts";
+import { useSuggestQuery } from "@/features/suggest";
 import KsLayout from "@/layout";
 import classNames from "classnames";
-import { flatMap, get, last, map, size } from "lodash";
+import { flatMap, get, last, map } from "lodash";
 import { FC, useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import Switch from "./KaSwitch";
 import Sidebar from "./Sidebar";
 import Stories from "./Stories";
-import { useSuggestQuery } from "@/features/suggest";
 
 const DashBoard: FC = () => {
   const userInfo = useSelector((state: any) => state?.auth?.userInfo);
@@ -19,8 +19,8 @@ const DashBoard: FC = () => {
   const { theme } = useContext(ThemeContext);
 
   const { data: posts, fetchNextPage, isFetching: isLoadingPosts } = usePostsInfiniteQuery();
-  const { data: trendingPost, isFetching: isLoadingTrendingPost } = usePostsQuery({ limit: 1, page: 2 });
-  const { data: suggestList, isFetching: isLoadingSuggest } = useSuggestQuery({ limit: 1, page: 1 });
+  const { data: trendingPost, isFetching: isLoadingTrendingPost } = usePostsQuery({ limit: 1, page: 3 });
+  const { data: suggestList, isFetching: isLoadingSuggest, isError: isErrorSuggest } = useSuggestQuery({ limit: 1, page: 1 });
 
   const handleOpenModal =
     ({ active, post }: any) =>
@@ -33,6 +33,7 @@ const DashBoard: FC = () => {
 
   const handleNextPage = () => {
     if (isLoadingPosts) return;
+
     fetchNextPage();
   };
 
@@ -50,7 +51,7 @@ const DashBoard: FC = () => {
 
           <Stories />
 
-          <CreatePost />
+          <CreatePost onSuccess={handleNextPage} />
 
           <PostList
             posts={flatMap(posts?.pages, (item) => item?.data?.items) || []}
@@ -113,19 +114,26 @@ const DashBoard: FC = () => {
               <h4 className="heading">Suggestion 💖💖</h4>
 
               <ul className="list">
-                {map(suggestList?.items, (item, index) => (
-                  <li className="item" key={index}>
-                    <KaLink to={`/profile/${item?.username}`} className="link" color="primary" hasUnderline>
-                      <div className={classNames("avatar", { "-skeleton": isLoadingSuggest })}>
-                        {!isLoadingSuggest && <Avatar src={item?.avatar || ""} objectFit="cover" size="md" />}
-                      </div>
+                {!isLoadingSuggest && !isErrorSuggest ? (
+                  map(suggestList?.items, (item, index) => (
+                    <li className="item" key={index}>
+                      <KaLink to={`/profile/${item?.username}`} className="link" color="primary" hasUnderline>
+                        <div className={classNames("avatar", { "-skeleton": isLoadingSuggest })}>
+                          {!isLoadingSuggest && <Avatar src={item?.avatar || ""} objectFit="cover" size="md" />}
+                        </div>
 
-                      <div className="info">
-                        <span className="name">{item?.name}</span>
-                      </div>
-                    </KaLink>
+                        <div className="info">
+                          <span className="name">{item?.name}</span>
+                        </div>
+                      </KaLink>
+                    </li>
+                  ))
+                ) : (
+                  <li className={classNames("item", { "-skeleton": isLoadingSuggest })}>
+                    <div className="avatar" />
+                    <div className="info" />
                   </li>
-                ))}
+                )}
               </ul>
             </div>
           </div>

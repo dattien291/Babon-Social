@@ -1,43 +1,32 @@
-import { GroupTextarea } from "@/components/compound";
-import { Avatar, Button, KaImage } from "@/components/primitive";
 import { ThemeContext } from "@/contexts/Theme";
-import { selectUserInfo } from "@/store/auth/selectors";
-import { useAppSelector } from "@/store/hooks";
 import { Modal } from "@mui/material";
 import classNames from "classnames";
-import { useFormik } from "formik";
-import { get, map } from "lodash";
-import { FC, useContext } from "react";
-import { GroupInput } from "../GroupInput";
+import { isEqual } from "lodash";
+import { FC, useContext, useEffect, useState } from "react";
+import Create from "./Create";
+import Edit from "./Edit";
 
 interface ICreatePostModal {
   open: boolean;
   onClose: () => void;
+  onSuccess: () => void;
 }
 
-const CreatePostModal: FC<ICreatePostModal> = ({ open, onClose }) => {
-  const userInfo = useAppSelector(selectUserInfo);
+const CreatePostModal: FC<ICreatePostModal> = ({ open, onClose, onSuccess }) => {
   const { theme } = useContext(ThemeContext);
+  const [mode, setMode] = useState<"create" | "edit">("create");
+  const [imageSelected, setImageSelected] = useState<string>("");
 
-  const { setFieldValue, resetForm, handleSubmit, values, errors } = useFormik({
-    initialValues: {
-      text: "",
-      files: [],
-    },
+  useEffect(() => {
+    setMode("create");
+  }, [open]);
 
-    onSubmit: async (values, { setSubmitting }) => {
-      setSubmitting(false);
-      resetForm();
-    },
-  });
-
-  const handleChange = ({ name, value }: { name: string; value: string | number }) => {
-    setFieldValue(name, value);
+  const handleSetMode = (mode: any) => {
+    setMode(mode);
   };
 
-  const handleChangeMetadata = ({ name, value, files }: { name: string; value: string | number; files?: any }) => {
-    const imageUrl = URL.createObjectURL(get(files, "[0]", ""));
-    setFieldValue("files", [...values.files, imageUrl]);
+  const handleChangeImageSelected = (imgUrl: string) => {
+    setImageSelected(imgUrl);
   };
 
   return (
@@ -47,47 +36,8 @@ const CreatePostModal: FC<ICreatePostModal> = ({ open, onClose }) => {
           <i className="fa-regular fa-xmark"></i>
         </span>
 
-        <h2 className="heading">Create Post</h2>
-
-        <div className="information">
-          <div className="avatar">
-            <Avatar src={userInfo?.avatar || ""} objectFit="cover" size="md" />
-          </div>
-
-          <span className="name">{userInfo?.name}</span>
-        </div>
-
-        <form className="form">
-          <GroupTextarea
-            className="textarea"
-            placeholder="What's on your my mind ?"
-            onChange={handleChange}
-            name="text"
-            value={values.text}
-          />
-        </form>
-
-        <label htmlFor="upload" className="metadata">
-          Add to your post
-          <span className="icon">
-            <i className="fa-regular fa-image"></i>
-          </span>
-        </label>
-        <GroupInput type="file" id="upload" hidden accept="image/png, image/jpeg" name="files" onChange={handleChangeMetadata} />
-
-        <div className="group">
-          <Button color="primary" fullWidth className="button" disabled={!values.text} onClick={() => handleSubmit()}>
-            Publish
-          </Button>
-        </div>
-
-        <ul className="list">
-          {map(values.files, (file, index) => (
-            <li className="item" key={index}>
-              <KaImage src={file || ""} className="image" objectFit="cover" />
-            </li>
-          ))}
-        </ul>
+        {isEqual(mode, "create") && <Create onChangeMode={handleSetMode} onEdit={handleChangeImageSelected} onSuccess={onSuccess} />}
+        {isEqual(mode, "edit") && <Edit onChangeMode={handleSetMode} imageUrl={imageSelected} />}
       </div>
     </Modal>
   );

@@ -1,8 +1,8 @@
-import { KaImage } from "@/components/primitive";
+import { KaImage, KaVideo } from "@/components/primitive";
 import { useStoriesQuery } from "@/features/stories";
 import { breakpoints } from "@/utils/constants";
 import classNames from "classnames";
-import { isEqual, map, times } from "lodash";
+import { get, isEqual, map, times } from "lodash";
 import { FC, useState } from "react";
 import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
