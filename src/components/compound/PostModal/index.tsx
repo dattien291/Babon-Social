@@ -1,11 +1,11 @@
-import { Avatar, KaImage } from "@/components/primitive";
+import { Avatar, KaImage, KaVideo } from "@/components/primitive";
 import { ThemeContext } from "@/contexts/Theme";
 import { selectUserInfo } from "@/store/auth/selectors";
 import { useAppSelector } from "@/store/hooks";
 import { Modal } from "@mui/material";
 import classNames from "classnames";
 import { format, isValid, parseISO } from "date-fns";
-import { isEmpty, isEqual, map, size } from "lodash";
+import { get, isEmpty, isEqual, map, size } from "lodash";
 import { FC, useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navigation } from "swiper";
@@ -47,21 +47,21 @@ export const PostModal: FC<IPostModal> = ({ open, onClose, dataPostModal }) => {
 
         <div className="content">
           <div className="left">
-            <Swiper
-              initialSlide={Number(dataPostModal?.active) || 0}
-              modules={[Navigation]}
-              className="swiper ks-post-modal-slides"
-              draggable="false"
-              allowTouchMove={false}
-              navigation={{
-                nextEl: ".ks-post-modal > .box > .content > .left > .action.-right",
-                prevEl: ".ks-post-modal > .box > .content > .left > .action.-left",
-              }}
-              onSlideChange={handleSlideChange}
-              ref={swiperRef}
-            >
-              {!isEmpty(dataPostModal?.post?.image) &&
-                map(dataPostModal?.post?.image, (src, index) => (
+            {!isEmpty(dataPostModal?.post?.image) && (
+              <Swiper
+                initialSlide={Number(dataPostModal?.active) || 0}
+                modules={[Navigation]}
+                className="swiper ks-post-modal-slides"
+                draggable="false"
+                allowTouchMove={false}
+                navigation={{
+                  nextEl: ".ks-post-modal > .box > .content > .left > .action.-right",
+                  prevEl: ".ks-post-modal > .box > .content > .left > .action.-left",
+                }}
+                onSlideChange={handleSlideChange}
+                ref={swiperRef}
+              >
+                {map(dataPostModal?.post?.image, (src, index) => (
                   <SwiperSlide className="swiper ks-post-modal-slide" key={index}>
                     <div className="thumbnail">
                       <KaImage src={src || ""} objectFit="cover" className="image" draggable="false" />
@@ -69,7 +69,12 @@ export const PostModal: FC<IPostModal> = ({ open, onClose, dataPostModal }) => {
                     </div>
                   </SwiperSlide>
                 ))}
-            </Swiper>
+              </Swiper>
+            )}
+
+            {!isEmpty(dataPostModal?.post?.video) && (
+              <KaVideo src={get(dataPostModal?.post?.video, "[0]", "")} className="video" controls />
+            )}
 
             <button
               className={classNames("action -left", {

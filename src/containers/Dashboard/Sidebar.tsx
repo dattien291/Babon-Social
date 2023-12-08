@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import classNames from "classnames";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ThemeContext } from "../../contexts/Theme";
+import { ThemeContext } from "@/contexts/Theme";
 
 const Sidebar = () => {
   const { theme } = useContext(ThemeContext);
@@ -30,7 +30,7 @@ const Sidebar = () => {
               <i className="fa-regular fa-house" />
             </Link>
 
-            <Link to="/chat" className="action">
+            <Link to="/" className="action">
               <i className="fa-regular fa-messages" />
             </Link>
 

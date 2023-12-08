@@ -46,14 +46,13 @@
 
     > .box {
       @include flex-column;
-      @include size(520px, auto);
       border-radius: $border-radius;
       background: $white;
       color: $color-gray-700;
       padding: 20px;
       position: relative;
+      max-width: 100%;
       max-height: 90%;
-      overflow-y: auto;
     }
 
     > .box > .close {
@@ -61,30 +60,37 @@
       cursor: pointer;
       font-size: 24px;
     }
+  }
 
-    > .box > .heading {
+  &-create-mode {
+    @include size(500px, auto);
+    overflow-y: auto;
+    max-width: 100%;
+    max-height: 100%;
+
+    > .heading {
       font-size: 20px;
       text-align: center;
       border-bottom: 1px solid $color-gray;
       padding-bottom: 20px;
     }
 
-    > .box > .information {
+    > .information {
       @include flex-center-ver;
       margin: 15px 0;
       gap: 10px;
     }
 
-    > .box > .information > .avatar {
+    > .information > .avatar {
       @include square(50px);
       aspect-ratio: 1/1;
     }
 
-    > .box > .information > .name {
+    > .information > .name {
       font-weight: $fw-semibold;
     }
 
-    > .box > .metadata {
+    > .metadata {
       @include flex-center-ver;
       justify-content: space-between;
       border: 1px solid $color-gray;
@@ -93,27 +99,125 @@
       font-weight: $fw-bold;
     }
 
-    > .box > .metadata > .icon {
+    > .metadata > .icon {
       font-size: 18px;
       color: green;
       cursor: pointer;
     }
 
-    > .box > .group > .button {
+    > .group > .button {
       display: block;
       border-radius: 8px;
       font-size: 16px;
       margin: 16px 0;
     }
 
-    > .box > .list {
+    > .list {
       @include flex-column;
       gap: 6px;
     }
 
-    > .box > .list > .item > .image {
+    > .list > .item {
+      position: relative;
+    }
+
+    > .list > .item > .button {
+      @include position(absolute, 10px, null, null, 10px);
+      width: 100px;
+      border-radius: 8px;
+
+      &:hover {
+        background-color: $white;
+        color: $color-gray-600;
+        opacity: 1;
+      }
+    }
+
+    > .list > .item > .image {
       @include size(100%, auto);
       aspect-ratio: 16/9;
+    }
+  }
+
+  &-edit-mode {
+    @include size(1000px, auto);
+    overflow-y: auto;
+    max-width: 100%;
+    max-height: 100%;
+
+    .cropper-point.point-se {
+      @include square(5px);
+    }
+
+    > .heading {
+      font-size: 20px;
+      text-align: center;
+      border-bottom: 1px solid $color-gray;
+      padding-bottom: 20px;
+    }
+
+    > .wrapper {
+      display: flex;
+      margin-top: 10px;
+
+      max-width: 100%;
+      max-height: 100%;
+
+      @include breakpoint-down(tablet) {
+        flex-direction: column-reverse;
+      }
+    }
+
+    > .wrapper > .sidebar {
+      width: 30%;
+      max-height: 100%;
+
+      @include breakpoint-down(tablet) {
+        width: 100%;
+      }
+    }
+
+    > .wrapper > .sidebar > .list {
+      @include flex-column;
+      gap: 13px;
+    }
+
+    > .wrapper > .sidebar > .list > .item {
+      @include flex-center-ver;
+      cursor: pointer;
+      font-weight: $fw-semibold;
+      gap: 6px;
+    }
+
+    > .wrapper > .sidebar > .list > .item > .icon {
+      @include circle(50px);
+      @include flex-center;
+      color: inherit;
+      font-size: 23px;
+    }
+
+    > .wrapper > .content {
+      width: 70%;
+      height: 500px;
+
+      @include breakpoint-down(tablet) {
+        width: 100%;
+        height: 300px;
+      }
+
+      @include breakpoint-down(phone) {
+        height: 200px;
+      }
+    }
+
+    > .wrapper > .content > .image {
+      @include square(unset);
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    > .wrapper > .content > .preview {
+      display: none;
     }
   }
 }

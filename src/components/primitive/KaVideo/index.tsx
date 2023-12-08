@@ -24,7 +24,7 @@ export function KaVideo({ src, hideOnError, defaultImage, className, loadingSize
     let isMounted = true;
     setIsLoading(true);
 
-    if (!audioPathRegex.test(src) || isEmpty(src)) {
+    if (isEmpty(src)) {
       if (isMounted) {
         setIsError(true);
         setIsLoading(false);

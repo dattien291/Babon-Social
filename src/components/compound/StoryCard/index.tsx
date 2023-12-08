@@ -4,7 +4,7 @@ import { Avatar, KaImage, KaVideo } from "@/components/primitive";
 import { $ } from "@/utils/constants";
 import { CircularProgress } from "@mui/material";
 import classNames from "classnames";
-import { isEqual } from "lodash";
+import { get, isEqual, size, times } from "lodash";
 import { GroupInput } from "@/components/compound";
 
 interface IStoryCardProps {
@@ -18,18 +18,36 @@ interface IStoryCardProps {
 
 export const StoryCard: FC<IStoryCardProps> = ({ story, onClick, onNext, onPrev, isBeginning, isEnd }) => {
   const swiperSlide = useSwiperSlide();
-  const [metadata, setMetadata] = useState<any>({
-    isLoading: true,
-    duration: 0,
-  });
+  const [isLoadingMeteData, setIsLoadingMeteData] = useState<boolean>(true);
 
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [isReady, setIsReady] = useState<boolean>(false);
+  const [activeVideo, setActiveVideo] = useState<number>(0);
+
+  useEffect(() => {
+    setIsReady(false);
+    const timer = setTimeout(() => {
+      setIsReady(true);
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+      setActiveVideo(0);
+    };
+  }, [swiperSlide.isActive]);
+
+  useEffect(() => {
+    setIsLoadingMeteData(true);
+    if (activeVideo >= size(story?.video)) onNext();
+  }, [activeVideo]);
 
   const handleTimeUpdate = (event: any) => {
-    if (isEqual(event.target.currentTime, event.target.duration)) onNext();
+    if (isEqual(event.target.currentTime, event.target.duration)) setActiveVideo((prev) => (prev < size(story?.video) ? prev + 1 : 0));
 
-    const progress: any = $("#story-card-progress");
+    const progress: any = $(`#story-card-progress-${activeVideo}`);
+
+    if (!progress) return;
     progress.style.width = `${(event.target.currentTime / event.target.duration) * 100}%`;
   };
 
@@ -94,13 +112,17 @@ export const StoryCard: FC<IStoryCardProps> = ({ story, onClick, onNext, onPrev,
               <i className="fa-solid fa-chevron-left"></i>
             </button>
 
-            <button className={classNames("action -right", { "-hidden": isEnd })} onClick={onNext}>
+            <button className={classNames("action -right", { "-hidden": isEnd })} onClick={() => setActiveVideo((prev) => prev + 1)}>
               <i className="fa-solid fa-chevron-right"></i>
             </button>
 
             <div className="header">
-              <div className="ks-story-card-progress">
-                <span className="slide" id="story-card-progress" />
+              <div className="progress">
+                {times(size(story?.video), (index) => (
+                  <div key={index} className="ks-story-card-progress">
+                    <span className={classNames("slide", { "-full": index < activeVideo })} id={`story-card-progress-${index}`} />
+                  </div>
+                ))}
               </div>
 
               <div className="navigation">
@@ -136,21 +158,23 @@ export const StoryCard: FC<IStoryCardProps> = ({ story, onClick, onNext, onPrev,
             </div>
           </div>
 
-          <KaVideo
-            id="story-video"
-            className={classNames("video", { "-hidden": metadata.isLoading })}
-            src={story?.video || ""}
-            width="100%"
-            height="100%"
-            autoPlay
-            onLoadedMetadata={(event: any) => setMetadata({ isLoading: false, duration: Number(event?.target?.duration) || 0 })}
-            onTimeUpdate={handleTimeUpdate}
-          />
+          {isReady && (
+            <KaVideo
+              id="story-video"
+              className={classNames("video", { "-hidden": isLoadingMeteData })}
+              src={get(story?.video, `[${activeVideo}]`, "")}
+              width="100%"
+              height="100%"
+              autoPlay
+              onLoadedMetadata={(event: any) => setIsLoadingMeteData(false)}
+              onTimeUpdate={handleTimeUpdate}
+            />
+          )}
         </>
       )}
 
-      {swiperSlide.isActive && metadata.isLoading && (
-        <div className={classNames("video", { "-loading": metadata.isLoading })}>
+      {swiperSlide.isActive && isLoadingMeteData && (
+        <div className={classNames("video", { "-loading": isLoadingMeteData })}>
           <CircularProgress color="secondary" className="spinner" />
         </div>
       )}

@@ -109,7 +109,7 @@ const Profile: FC = () => {
 
             <div className="ks-profile-content">
               <div className="left">
-                <CreatePost />
+                <CreatePost onSuccess={() => console.log("next-page")} />
 
                 <PostList
                   posts={flatMap(posts?.pages, (item) => item?.data?.items) || []}
